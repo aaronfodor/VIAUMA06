@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dist="http://schemas.android.com/apk/distribution"
+    package="com.arpadfodor.communityparking.android.app">
+
+    <!-- Enable instant app support -->
+    <dist:module dist:instant="true" /> <!-- Declare features -->
+    <uses-feature android:name="android.hardware.camera" /> <!-- Declare permissions -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
+
+    <application
+        android:name="com.arpadfodor.communityparking.android.app.ApplicationRoot"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/.
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <!-- Declare notch support -->
+        <meta-data
+            android:name="android.notch_support"
+            android:value="true" />
+
+        <activity
+            android:name="com.arpadfodor.communityparking.android.app.view.LoginActivity"
+            android:clearTaskOnLaunch="true"
+            android:icon="@mipmap/ic_launcher"
+            android:rotationAnimation="seamless"
+            android:screenOrientation="fullUser"
+            android:theme="@style/AppTheme">
+
+            <!-- Main app intent filter -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name="com.arpadfodor.communityparking.android.app.view.AccountActivity"
+            android:clearTaskOnLaunch="true"
+            android:icon="@mipmap/ic_launcher"
+            android:rotationAnimation="seamless"
+            android:screenOrientation="fullUser"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name="com.arpadfodor.communityparking.android.app.view.CameraActivity"
+            android:clearTaskOnLaunch="true"
+            android:icon="@mipmap/ic_launcher"
+            android:rotationAnimation="seamless"
+            android:screenOrientation="fullUser"
+            android:theme="@style/AppTheme">
+
+            <!-- Register as a system camera app -->
+            <intent-filter>
+                <action android:name="android.media.action.IMAGE_CAPTURE" />
+                <action android:name="android.media.action.STILL_IMAGE_CAMERA" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name="com.arpadfodor.communityparking.android.app.view.LoadActivity"
+            android:clearTaskOnLaunch="true"
+            android:icon="@mipmap/ic_launcher"
+            android:rotationAnimation="seamless"
+            android:screenOrientation="fullUser"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name="com.arpadfodor.communityparking.android.app.view.AlertActivity"
+            android:icon="@mipmap/ic_launcher"
+            android:rotationAnimation="seamless"
+            android:screenOrientation="fullUser"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name="com.arpadfodor.communityparking.android.app.view.RecognitionActivity"
+            android:icon="@mipmap/ic_launcher"
+            android:rotationAnimation="seamless"
+            android:screenOrientation="fullUser"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name="com.arpadfodor.communityparking.android.app.view.SettingsActivity"
+            android:icon="@mipmap/ic_launcher"
+            android:rotationAnimation="seamless"
+            android:screenOrientation="fullUser"
+            android:theme="@style/OptionsScreen" />
+
+        <activity
+            android:name="com.arpadfodor.communityparking.android.app.view.AboutActivity"
+            android:icon="@mipmap/ic_launcher"
+            android:rotationAnimation="seamless"
+            android:screenOrientation="fullUser"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name="com.arpadfodor.communityparking.android.app.view.HowToUseActivity"
+            android:icon="@mipmap/ic_launcher"
+            android:rotationAnimation="seamless"
+            android:screenOrientation="fullUser"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name="com.arpadfodor.communityparking.android.app.view.MapActivity"
+            android:clearTaskOnLaunch="true"
+            android:icon="@mipmap/ic_launcher"
+            android:rotationAnimation="seamless"
+            android:screenOrientation="fullUser"
+            android:theme="@style/AppTheme"/>
+
+    </application>
+
+</manifest>

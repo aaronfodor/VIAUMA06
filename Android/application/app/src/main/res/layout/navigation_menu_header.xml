@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigationMenuLayout"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/navigation_menu_height"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical"
+    android:gravity="bottom">
+
+    <com.flaviofaria.kenburnsview.KenBurnsView
+        android:id="@+id/kenBurnsView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/road" />
+
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/navigation_menu_icon_vertical_spacing"
+        android:paddingBottom="@dimen/navigation_menu_icon_vertical_spacing"
+        app:layout_constraintBottom_toBottomOf="@+id/kenBurnsView"
+        app:layout_constraintStart_toStartOf="@+id/kenBurnsView"
+        app:layout_constraintTop_toTopOf="@+id/kenBurnsView"
+        app:srcCompat="@drawable/icon_app" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/navigation_menu_vertical_spacing"
+        android:textAppearance="@style/Subtitle"
+        android:gravity="center"
+        android:id="@+id/tvName"
+        android:maxLines="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/navigation_menu_vertical_spacing"
+        android:textAppearance="@style/ParagraphBody"
+        android:gravity="center"
+        android:id="@+id/tvEmail"
+        android:maxLines="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/kenBurnsView"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

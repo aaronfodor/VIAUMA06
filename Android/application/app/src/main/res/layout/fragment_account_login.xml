@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/login_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:id="@+id/login_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/paragraph_margin"
+        android:gravity="top"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/login_scrollable_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/paragraph_padding">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/name_input_login_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:hint="@string/email">
+
+                <EditText android:id="@+id/input_login_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/password_input_login_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/name_input_login_layout"
+                android:hint="@string/password">
+
+                <EditText android:id="@+id/input_login_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.arpadfodor.communityparking.android.app.view.utils.AppButton
+                android:id="@+id/btnForgotPassword"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/forgot_password"
+                style="@style/AppButton"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/glVerticalMiddle"
+                app:layout_constraintTop_toBottomOf="@+id/password_input_login_layout"/>
+
+            <com.arpadfodor.communityparking.android.app.view.utils.AppButton
+                android:id="@+id/btnGuestLogin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/continue_as_guest"
+                style="@style/AppButton"
+                app:layout_constraintStart_toStartOf="@+id/glVerticalMiddle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/password_input_login_layout"/>
+
+            <com.arpadfodor.communityparking.android.app.view.utils.AppPositiveButton
+                android:id="@+id/btnUserLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/login"
+                style="@style/AppButton"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnGuestLogin"/>
+
+            <CheckBox
+                android:id="@+id/cbLoginRememberMe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/remember_me"
+                style="@style/Subtitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnUserLogin"/>
+
+            <TextView android:id="@+id/linkSignUp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/no_account_yet"
+                android:gravity="center"
+                style="@style/Subtitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cbLoginRememberMe"/>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/glVerticalMiddle"
+                app:layout_constraintGuide_percent="0.5"
+                android:orientation="vertical"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

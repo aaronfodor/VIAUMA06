@@ -1,0 +1,150 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:navigationBarColor">@color/colorNavigationBar</item>
+
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar"/>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Dark"/>
+
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@android:anim/slide_in_left</item>
+        <item name="android:windowExitAnimation">@android:anim/slide_out_right</item>
+    </style>
+
+    <style name="OptionsScreen" parent="AppTheme">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textColorSecondary">@color/colorText</item>
+        <item name="android:windowBackground">@color/optionsBackground</item>
+    </style>
+
+    <style name="CardContainer">
+        <item name="android:padding">@dimen/padding_xxsmall</item>
+        <item name="android:layout_marginTop">@dimen/margin_large</item>
+        <item name="android:layout_marginStart">@dimen/margin_xsmall</item>
+        <item name="android:layout_marginEnd">@dimen/margin_xsmall</item>
+        <item name="android:layout_marginBottom">@dimen/margin_xsmall</item>
+        <item name="android:background">@drawable/card_background</item>
+    </style>
+
+    <style name="ListElementContainer" parent="CardContainer">
+        <item name="android:padding">@dimen/padding_xxsmall</item>
+        <item name="android:layout_marginTop">@dimen/margin_xsmall</item>
+        <item name="android:layout_marginStart">@dimen/margin_xsmall</item>
+        <item name="android:layout_marginEnd">@dimen/margin_xsmall</item>
+        <item name="android:layout_marginBottom">@dimen/margin_xsmall</item>
+        <item name="android:background">@drawable/card_background</item>
+    </style>
+
+    <style name="ExtendedFabHelp" parent="Widget.MaterialComponents.ExtendedFloatingActionButton">
+        <item name="android:layout_margin">@dimen/margin_xxsmall</item>
+        <item name="android:textColor">@color/colorFabText</item>
+        <item name="android:textSize">@dimen/fab_text_size</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="TitleText">
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textSize">@dimen/title_text_size</item>
+        <item name="android:fontFamily">@font/subtitle</item>
+        <item name="android:padding">@dimen/title_padding</item>
+        <item name="android:layout_margin">@dimen/title_margin</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="ParagraphBody">
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textSize">@dimen/paragraph_text_size</item>
+        <item name="android:fontFamily">@font/paragraph</item>
+        <item name="android:gravity">start</item>
+        <item name="android:layout_marginTop">@dimen/paragraph_margin</item>
+        <item name="android:layout_marginStart">@dimen/paragraph_margin</item>
+        <item name="android:layout_marginEnd">@dimen/paragraph_margin</item>
+        <item name="android:layout_marginBottom">@dimen/paragraph_margin</item>
+        <item name="android:paddingTop">@dimen/paragraph_padding</item>
+        <item name="android:paddingStart">@dimen/paragraph_padding</item>
+        <item name="android:paddingEnd">@dimen/paragraph_padding</item>
+        <item name="android:paddingBottom">@dimen/paragraph_padding</item>
+    </style>
+
+    <style name="InputFieldText" parent="ParagraphBody">
+        <item name="android:textSize">@dimen/subtitle_text_size</item>
+        <item name="android:layout_margin">@dimen/margin_xxsmall</item>
+        <item name="android:padding">@dimen/padding_xsmall</item>
+    </style>
+
+    <style name="Subtitle" parent="ParagraphBody">
+        <item name="android:textSize">@dimen/subtitle_text_size</item>
+    </style>
+
+    <style name="ParagraphBodyTop" parent="ParagraphBody">
+        <item name="android:layout_marginTop">@dimen/paragraph_margin</item>
+        <item name="android:layout_marginBottom">0dp</item>
+        <item name="android:paddingTop">@dimen/paragraph_padding</item>
+        <item name="android:paddingBottom">0dp</item>
+    </style>
+
+    <style name="ParagraphBodyBottom" parent="ParagraphBody">
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:layout_marginBottom">@dimen/paragraph_margin</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">@dimen/paragraph_padding</item>
+    </style>
+
+    <style name="ParagraphBodyThin" parent="ParagraphBody">
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:layout_marginBottom">0dp</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+    </style>
+
+    <style name="SubtitleTop" parent="Subtitle">
+        <item name="android:layout_marginTop">@dimen/paragraph_margin</item>
+        <item name="android:layout_marginBottom">0dp</item>
+        <item name="android:paddingTop">@dimen/paragraph_padding</item>
+        <item name="android:paddingBottom">0dp</item>
+    </style>
+
+    <style name="SubtitleBottom" parent="Subtitle">
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:layout_marginBottom">@dimen/paragraph_margin</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">@dimen/paragraph_padding</item>
+    </style>
+
+    <style name="ButtonLabel" parent="ParagraphBody">
+        <item name="android:textAlignment">textStart</item>
+        <item name="android:gravity">start</item>
+    </style>
+
+    <style name="AppButton" parent="AppTheme">
+        <item name="android:layout_marginStart">@dimen/button_margin_horizontal</item>
+        <item name="android:layout_marginEnd">@dimen/button_margin_horizontal</item>
+        <item name="android:layout_marginTop">@dimen/button_margin_vertical</item>
+        <item name="android:layout_marginBottom">@dimen/button_margin_vertical</item>
+        <item name="android:paddingTop">@dimen/button_padding_vertical</item>
+        <item name="android:paddingBottom">@dimen/button_padding_vertical</item>
+        <item name="android:paddingStart">@dimen/button_padding_horizontal</item>
+        <item name="android:paddingEnd">@dimen/button_padding_horizontal</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="RecognitionImage" parent="AppTheme">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/paragraph_margin</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:scaleType">fitXY</item>
+        <item name="android:contentDescription">@string/recognition_image</item>
+    </style>
+
+</resources>

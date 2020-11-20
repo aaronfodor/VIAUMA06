@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="colorPrimary">#000000</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#03DAC5</color>
+    <color name="colorAccentBlue">#336699</color>
+    <color name="colorTransparent">#00000000</color>
+
+    <color name="colorText">#DFFFFF</color>
+
+    <color name="colorIcon">#DFFFFF</color>
+
+    <color name="colorAlert">#FF0000</color>
+    <color name="colorAlertBoundingBox">#FF0000</color>
+    <color name="colorReceptiveFieldMarker">#80FFFFFF</color>
+
+    <color name="colorFabNormal">#33333D</color>
+    <color name="colorFabPressed">#252529</color>
+    <color name="colorAlertFabNormal">#FF0000</color>
+    <color name="colorAlertFabPressed">#AA0000</color>
+    <color name="colorFabText">#DFFFFF</color>
+
+    <color name="optionsBackground">#33333D</color>
+    <color name="colorDialogBackground">#B3000000</color>
+    <color name="colorNavigationBar">#000000</color>
+
+    <color name="colorAppSnackBarBackground">#33333D</color>
+    <color name="colorSuccessSnackBarBackground">#00FF00</color>
+    <color name="colorAlertSnackBarBackground">#FF0000</color>
+    <color name="colorAppSnackBarLightText">#DFFFFF</color>
+
+    <color name="colorCardBackground">#33333D</color>
+    <color name="colorCardBackgroundDark">#252529</color>
+    <color name="colorCardText">#DFFFFF</color>
+
+    <color name="colorButtonPositive">#03DAC5</color>
+    <color name="colorButtonNeutral">#DFFFFF</color>
+    <color name="colorButtonPressed">#AAFFFFFF</color>
+
+    <color name="colorEditTextBorder">#AAFFFFFF</color>
+    <color name="colorEditTextBorderFocused">#03DAC5</color>
+
+    <color name="icActive">#FFFFFFFF</color>
+    <color name="icFocused">#DDFFFFFF</color>
+    <color name="icPressed">#AAFFFFFF</color>
+
+</resources>

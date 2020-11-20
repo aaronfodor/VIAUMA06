@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/about_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tvAboutTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/TitleText"
+        android:text="@string/menu_about" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        style="@style/CardContainer">
+
+        <ScrollView
+            android:id="@+id/about_scrollview"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/glVerticalMiddle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_margin="@dimen/paragraph_margin"
+            android:gravity="top">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/about_details_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/paragraph_padding">
+
+                <TextView
+                    android:id="@+id/aboutAppName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    style="@style/SubtitleTop"
+                    android:text="@string/app_name"/>
+
+                <TextView
+                    android:id="@+id/aboutAppVersion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/aboutAppName"
+                    style="@style/ParagraphBodyBottom"
+                    android:text="@string/app_version"/>
+
+                <TextView
+                    android:id="@+id/aboutAppCreator"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/aboutAppVersion"
+                    style="@style/SubtitleTop"
+                    android:text="@string/app_creator"/>
+
+                <TextView
+                    android:id="@+id/aboutAppDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/aboutAppCreator"
+                    style="@style/ParagraphBodyBottom"
+                    android:text="@string/app_date"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabMoreFromDeveloper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/button_margin_horizontal"
+            android:backgroundTint="@color/colorButtonNeutral"
+            app:srcCompat="@drawable/icon_more_apps"
+            app:layout_constraintBottom_toTopOf="@+id/fabReview"
+            app:layout_constraintStart_toStartOf="parent"
+            android:contentDescription="@string/more_from_developer" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@+id/fabMoreFromDeveloper"
+            app:layout_constraintEnd_toStartOf="@+id/glVerticalMiddle"
+            app:layout_constraintTop_toTopOf="@+id/fabMoreFromDeveloper"
+            app:layout_constraintBottom_toBottomOf="@+id/fabMoreFromDeveloper"
+            style="@style/ButtonLabel"
+            android:text="@string/more_from_developer"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabReview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/button_margin_horizontal"
+            android:backgroundTint="@color/colorButtonNeutral"
+            app:srcCompat="@drawable/icon_review"
+            app:layout_constraintBottom_toTopOf="@+id/fabBugReport"
+            app:layout_constraintStart_toStartOf="parent"
+            android:contentDescription="@string/review_app" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@+id/fabReview"
+            app:layout_constraintEnd_toStartOf="@+id/glVerticalMiddle"
+            app:layout_constraintTop_toTopOf="@+id/fabReview"
+            app:layout_constraintBottom_toBottomOf="@+id/fabReview"
+            style="@style/ButtonLabel"
+            android:text="@string/review_app"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabBugReport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/button_margin_horizontal"
+            android:backgroundTint="@color/colorButtonNeutral"
+            app:srcCompat="@drawable/icon_bug"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:contentDescription="@string/report_bug" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@+id/fabBugReport"
+            app:layout_constraintEnd_toStartOf="@+id/glVerticalMiddle"
+            app:layout_constraintTop_toTopOf="@+id/fabBugReport"
+            app:layout_constraintBottom_toBottomOf="@+id/fabBugReport"
+            style="@style/ButtonLabel"
+            android:text="@string/report_bug"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glVerticalMiddle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintGuide_percent="@dimen/button_vs_text_land_layout_ratio"
+            android:orientation="vertical"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

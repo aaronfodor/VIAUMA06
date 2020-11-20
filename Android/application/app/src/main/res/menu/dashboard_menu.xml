@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_live"
+        android:icon="@drawable/icon_camera"
+        android:title="@string/menu_live" />
+
+    <item
+        android:id="@+id/navigation_load"
+        android:icon="@drawable/icon_image"
+        android:title="@string/menu_load" />
+
+    <item
+        android:id="@+id/navigation_map"
+        android:icon="@drawable/icon_map"
+        android:title="@string/menu_map" />
+
+    <item
+        android:id="@+id/navigation_user_recognitions"
+        android:icon="@drawable/icon_my_recognition"
+        android:title="@string/menu_user_recognitions" />
+
+    <item
+        android:id="@+id/navigation_settings"
+        android:icon="@drawable/icon_settings"
+        android:title="@string/menu_settings" />
+
+    <item
+        android:id="@+id/navigation_how_to_use"
+        android:icon="@drawable/icon_help"
+        android:title="@string/menu_how_to_use" />
+
+    <item
+        android:id="@+id/navigation_about"
+        android:icon="@drawable/icon_info"
+        android:title="@string/menu_about" />
+
+    <item
+        android:id="@+id/navigation_account"
+        android:icon="@drawable/icon_account"
+        android:title="@string/menu_account" />
+
+</menu>
