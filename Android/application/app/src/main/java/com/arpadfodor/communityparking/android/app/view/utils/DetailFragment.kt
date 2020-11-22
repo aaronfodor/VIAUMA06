@@ -7,19 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
 import com.arpadfodor.communityparking.android.app.R
 import com.arpadfodor.communityparking.android.app.viewmodel.utils.MasterDetailViewModel
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_detail.*
-
 
 class DetailFragment : AppFragment(){
 
@@ -49,7 +43,6 @@ class DetailFragment : AppFragment(){
             updateSucceedSnackBarText: String,
             updateFailedSnackBarText: String
         ){
-
             this.viewModel = viewModel
             this.title = title
 
@@ -60,45 +53,17 @@ class DetailFragment : AppFragment(){
             this.deleteFailedSnackBarText = deleteFailedSnackBarText
             this.updateSucceedSnackBarText = updateSucceedSnackBarText
             this.updateFailedSnackBarText = updateFailedSnackBarText
-
         }
 
     }
-
-    private lateinit var container: ConstraintLayout
-    private lateinit var recognition_detail_title: TextView
-    private lateinit var recognitionDetailImage: ImageView
-    private lateinit var recognitionDetailMessage: EditText
-    private lateinit var recognitionDetailLicenseId: TextView
-    private lateinit var recognitionDetailDate: TextView
-    private lateinit var recognitionDetailLocation: TextView
-    private lateinit var recognitionDetailAddress: TextView
-    private lateinit var detail_back_button: FloatingActionButton
-    private lateinit var detail_delete_button: FloatingActionButton
-    private lateinit var detail_send_button: FloatingActionButton
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_detail, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         super.onViewCreated(view, savedInstanceState)
-
-        container = view as ConstraintLayout
-        recognition_detail_title = container.findViewById(R.id.recognition_detail_title)
-        recognitionDetailImage = container.findViewById(R.id.recognitionDetailImage)
-        recognitionDetailMessage = container.findViewById(R.id.recognitionDetailMessage)
-        recognitionDetailLicenseId = container.findViewById(R.id.recognitionDetailLicenseId)
-        recognitionDetailDate = container.findViewById(R.id.recognitionDetailDate)
-        recognitionDetailLocation = container.findViewById(R.id.recognitionDetailLocation)
-        recognitionDetailAddress = container.findViewById(R.id.recognitionDetailAddress)
-        detail_back_button = container.findViewById(R.id.detail_back_button)
-        detail_delete_button = container.findViewById(R.id.detail_delete_button)
-        detail_send_button = container.findViewById(R.id.detail_send_button)
-
-        recognition_detail_title.text = title
-
+        report_detail_title?.text = title
     }
 
     override fun subscribeToViewModel() {
@@ -112,14 +77,14 @@ class DetailFragment : AppFragment(){
                 fragment_detail_parent_layout?.visibility = View.GONE
             }
 
-            currentRecognition?.let { recognition ->
+            currentRecognition?.let { report ->
 
                 fragment_detail_parent_layout?.visibility = View.VISIBLE
 
-                val image = recognition.image
+                val image = report.image
                 image?.let { bitmap ->
 
-                    recognitionDetailImage.let {
+                    reportDetailImage?.let {
                         it.disappearingAnimation(requireContext())
                         Glide
                             .with(this)
@@ -133,56 +98,80 @@ class DetailFragment : AppFragment(){
 
                 }
 
-                if(recognition.isAlert){
-
-                    if(recognition.isSent){
-                        detail_send_button.setImageResource(R.drawable.icon_added_recognition)
-                    }
-                    else{
-                        detail_send_button.setImageResource(R.drawable.icon_add_recognition)
-                    }
-
-                }
-                else{
-
-                    if(recognition.isSent){
-                        detail_send_button.setImageResource(R.drawable.icon_added_recognition)
-                    }
-                    else{
-                        detail_send_button.setImageResource(R.drawable.icon_send)
-                    }
-
-                }
+                detail_send_button?.setImageResource(R.drawable.icon_send)
 
                 //force done button on keyboard instead of the new line button
-                recognitionDetailMessage.setRawInputType(InputType.TYPE_CLASS_TEXT)
-                recognitionDetailMessage.text = SpannableStringBuilder(recognition.message)
+                reportDetailMessage?.setRawInputType(InputType.TYPE_CLASS_TEXT)
+                reportDetailMessage?.text = SpannableStringBuilder(report.message)
 
-                recognitionDetailLicenseId.text = recognition.licenseId
-                recognitionDetailDate.text = recognition.date
-                recognitionDetailLocation.text =
+                //force done button on keyboard instead of the new line button
+                reportDetailPrice?.setRawInputType(InputType.TYPE_CLASS_NUMBER)
+                val feePerHourText = if(report.feePerHour == null){
+                    ""
+                }
+                else{
+                    report.feePerHour.toString()
+                }
+                reportDetailPrice?.text = SpannableStringBuilder(feePerHourText)
+
+                reportDetailDate?.text = report.timestampUTC
+                reportDetailLocation?.text =
                     requireContext().getString(
-                        R.string.recognition_item_location_long,
-                        recognition.longitude,
-                        recognition.latitude
+                        R.string.report_item_location_long,
+                        report.longitude.toString(),
+                        report.latitude.toString()
                     )
 
-                viewModel.getAddressFromLocation(recognition.latitude.toDouble(), recognition.longitude.toDouble()){
-                    recognitionDetailAddress.text = requireContext().getString(R.string.recognition_item_address, it)
+                when {
+                    viewModel.getUserEmail() == "" -> {
+                        reportReserve?.text = "Guest user cannot reserve"
+                        reportReserve?.isEnabled = false
+                    }
+                    report.reservingEmail.isEmpty() -> {
+                        reportReserve?.text = "Reserve"
+                        reportReserve?.isEnabled = true
+                    }
+                    report.reservingEmail != viewModel.getUserEmail() -> {
+                        reportReserve?.text = "Already reserved"
+                        reportReserve?.isEnabled = false
+                    }
+                    report.reservingEmail == viewModel.getUserEmail() -> {
+                        reportReserve?.text = "Delete reservation"
+                        reportReserve?.isEnabled = true
+                    }
                 }
 
-                detail_back_button.setOnClickListener {
-                    viewModel.deselectRecognition()
+                viewModel.getAddressFromLocation(report.latitude, report.longitude){
+                    reportDetailAddress?.text = requireContext().getString(R.string.report_item_address, it)
                 }
 
-                detail_delete_button.setOnClickListener {
-
-                    viewModel.deleteRecognition(recognition.artificialId){ isSuccess ->
+                reportReserve?.setOnClickEvent {
+                    viewModel.reserveButtonClicked(id){ isEnabled, text ->
 
                         val currentContext = context
                         val currentView = view
-                        currentContext ?: return@deleteRecognition
-                        currentView ?: return@deleteRecognition
+                        currentContext ?: return@reserveButtonClicked
+                        currentView ?: return@reserveButtonClicked
+
+                        reportReserve?.text = text
+                        reportReserve?.isEnabled = isEnabled
+                        reportReserve?.invalidate()
+
+                    }
+                }
+
+                detail_back_button?.setOnClickListener {
+                    viewModel.deselectRecognition()
+                }
+
+                detail_delete_button?.setOnClickListener {
+
+                    viewModel.deleteReport(report.id){ isSuccess ->
+
+                        val currentContext = context
+                        val currentView = view
+                        currentContext ?: return@deleteReport
+                        currentView ?: return@deleteReport
 
                         when(isSuccess){
 
@@ -212,110 +201,125 @@ class DetailFragment : AppFragment(){
 
                 }
 
-                // if the recognition has been sent -> hide send button, disable editing message
-                if(recognition.isSent){
+                detail_send_button?.setOnClickListener {
 
-                    detail_send_button.setOnClickListener {
+                    viewModel.sendReport(report.id){ isSuccess ->
 
                         val currentContext = context
                         val currentView = view
-                        currentContext ?: return@setOnClickListener
-                        currentView ?: return@setOnClickListener
+                        currentContext ?: return@sendReport
+                        currentView ?: return@sendReport
 
-                        AppSnackBarBuilder.buildInfoSnackBar(
-                            currentContext,
-                            currentView,
-                            alreadySentSnackBarText,
-                            Snackbar.LENGTH_SHORT
-                        ).show()
+                        when(isSuccess){
+                            true -> {
 
-                    }
-
-                    recognitionDetailMessage.isFocusable = false
-                    recognitionDetailMessage.isClickable = false
-                    recognitionDetailMessage.setOnEditorActionListener { textView, actionId, event ->
-                        true
-                    }
-
-                }
-                else{
-
-                    detail_send_button.setOnClickListener {
-
-                        viewModel.sendRecognition(recognition.artificialId){ isSuccess ->
-
-                            val currentContext = context
-                            val currentView = view
-                            currentContext ?: return@sendRecognition
-                            currentView ?: return@sendRecognition
-
-                            when(isSuccess){
-                                true -> {
-
-                                    AppSnackBarBuilder.buildSuccessSnackBar(
-                                        currentContext,
-                                        currentView,
-                                        sendSucceedSnackBarText,
-                                        Snackbar.LENGTH_SHORT
-                                    ).show()
-
-                                }
-                                else -> {
-
-                                    AppSnackBarBuilder.buildAlertSnackBar(
-                                        currentContext,
-                                        currentView,
-                                        sendFailedSnackBarText,
-                                        Snackbar.LENGTH_SHORT
-                                    ).show()
-
-                                }
-                            }
-
-                        }
-
-                    }
-
-                    recognitionDetailMessage.isFocusable = true
-                    recognitionDetailMessage.isClickable = true
-                    recognitionDetailMessage.setOnEditorActionListener { textView, actionId, event ->
-
-                        val message = textView.text.toString()
-
-                        return@setOnEditorActionListener when (actionId){
-
-                            EditorInfo.IME_ACTION_DONE ->{
-
-                                viewModel.updateRecognitionMessage(id, message){ isSuccess ->
-
-                                    val currentContext = context
-                                    val currentView = view
-                                    currentContext ?: return@updateRecognitionMessage
-                                    currentView ?: return@updateRecognitionMessage
-
-                                    if(!isSuccess){
-                                        AppSnackBarBuilder.buildAlertSnackBar(
-                                            currentContext,
-                                            currentView,
-                                            updateFailedSnackBarText,
-                                            Snackbar.LENGTH_SHORT
-                                        ).show()
-                                    }
-
-                                }
-                                recognitionDetailMessage.clearFocus()
-                                false
+                                AppSnackBarBuilder.buildSuccessSnackBar(
+                                    currentContext,
+                                    currentView,
+                                    sendSucceedSnackBarText,
+                                    Snackbar.LENGTH_SHORT
+                                ).show()
 
                             }
                             else -> {
-                                false
-                            }
 
+                                AppSnackBarBuilder.buildAlertSnackBar(
+                                    currentContext,
+                                    currentView,
+                                    sendFailedSnackBarText,
+                                    Snackbar.LENGTH_SHORT
+                                ).show()
+
+                            }
                         }
 
                     }
 
                 }
+
+                reportDetailMessage?.isFocusable = true
+                reportDetailMessage?.isClickable = true
+                reportDetailMessage?.setOnEditorActionListener { textView, actionId, event ->
+
+                    val message = textView.text.toString()
+
+                    return@setOnEditorActionListener when (actionId){
+
+                        EditorInfo.IME_ACTION_DONE ->{
+
+                            viewModel.updateRecognitionMessage(id, message){ isSuccess ->
+
+                                val currentContext = context
+                                val currentView = view
+                                currentContext ?: return@updateRecognitionMessage
+                                currentView ?: return@updateRecognitionMessage
+
+                                if(!isSuccess){
+                                    AppSnackBarBuilder.buildAlertSnackBar(
+                                        currentContext,
+                                        currentView,
+                                        updateFailedSnackBarText,
+                                        Snackbar.LENGTH_SHORT
+                                    ).show()
+                                }
+
+                            }
+                            reportDetailMessage?.clearFocus()
+                            false
+
+                        }
+                        else -> {
+                            false
+                        }
+
+                    }
+
+                }
+
+                reportDetailPrice?.isFocusable = true
+                reportDetailPrice?.isClickable = true
+                reportDetailPrice?.setOnEditorActionListener { textView, actionId, event ->
+
+                    val priceString = textView.text.toString()
+                    var price: Double? = null
+
+                    if(priceString.isNotEmpty()) {
+                        price = priceString.toDouble()
+                    }
+
+                    return@setOnEditorActionListener when (actionId){
+
+                        EditorInfo.IME_ACTION_DONE ->{
+
+                            viewModel.updateRecognitionPrice(id, price){ isSuccess ->
+
+                                val currentContext = context
+                                val currentView = view
+                                currentContext ?: return@updateRecognitionPrice
+                                currentView ?: return@updateRecognitionPrice
+
+                                if(!isSuccess){
+                                    AppSnackBarBuilder.buildAlertSnackBar(
+                                        currentContext,
+                                        currentView,
+                                        updateFailedSnackBarText,
+                                        Snackbar.LENGTH_SHORT
+                                    ).show()
+                                }
+
+                            }
+                            reportDetailPrice?.clearFocus()
+                            false
+
+                        }
+                        else -> {
+                            false
+                        }
+
+                    }
+
+                }
+
 
             }
 
@@ -330,9 +334,9 @@ class DetailFragment : AppFragment(){
     }
 
     override fun appearingAnimations(){
-        detail_send_button.overshootAppearingAnimation(this.requireContext())
-        detail_delete_button.overshootAppearingAnimation(this.requireContext())
-        detail_back_button.overshootAppearingAnimation(this.requireContext())
+        detail_send_button?.overshootAppearingAnimation(this.requireContext())
+        detail_delete_button?.overshootAppearingAnimation(this.requireContext())
+        detail_back_button?.overshootAppearingAnimation(this.requireContext())
     }
 
     override fun subscribeListeners(){}

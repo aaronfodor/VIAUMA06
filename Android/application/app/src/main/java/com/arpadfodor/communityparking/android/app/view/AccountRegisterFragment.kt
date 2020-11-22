@@ -46,39 +46,51 @@ class AccountRegisterFragment : AppFragment() {
 
         btnCreateAccount?.setOnClickListener {
 
-            if(input_create_name.text.toString().isEmpty()){
-                input_create_name.requestFocus()
-                input_create_name.error = getString(R.string.enter_your_name)
-                return@setOnClickListener
-            }
-            else if(input_create_email.text.toString().isEmpty()){
-                input_create_email.requestFocus()
-                input_create_email.error = getString(R.string.enter_your_email)
-                return@setOnClickListener
-            }
-            else if(input_create_password.text.toString().isEmpty()){
-                input_create_password.requestFocus()
-                input_create_password.error = getString(R.string.enter_your_password)
-                return@setOnClickListener
-            }
+            when {
+                input_create_name.text.toString().isEmpty() -> {
+                    input_create_name.requestFocus()
+                    input_create_name.error = getString(R.string.enter_your_name)
+                    return@setOnClickListener
+                }
+                input_create_email.text.toString().isEmpty() -> {
+                    input_create_email.requestFocus()
+                    input_create_email.error = getString(R.string.enter_your_email)
+                    return@setOnClickListener
+                }
+                input_create_password.text.toString().isEmpty() -> {
+                    input_create_password.requestFocus()
+                    input_create_password.error = getString(R.string.enter_your_password)
+                    return@setOnClickListener
+                }
+                else -> {
+                    val email = input_create_email.text.toString()
+                    val name = input_create_name.text.toString()
+                    val password = input_create_password.text.toString()
+                    val isRememberEnabled = cbSignUpRememberMe.isChecked
 
-            val email = input_create_email.text.toString()
-            val name = input_create_name.text.toString()
-            val password = input_create_password.text.toString()
-            val isRememberEnabled = cbSignUpRememberMe.isChecked
+                    val success = {
+                        val toStartActivity = CameraActivity::class.java
+                        val intent = Intent(this.context, toStartActivity)
+                        startActivity(intent)
+                    }
 
-            val success = {
-                val toStartActivity = CameraActivity::class.java
-                val intent = Intent(this.context, toStartActivity)
-                startActivity(intent)
+                    val error = {
+                        AppSnackBarBuilder.buildAlertSnackBar(
+                            requireContext(), container,
+                            getString(R.string.create_account_failed), Snackbar.LENGTH_SHORT
+                        ).show()
+                    }
+
+                    viewModel.registerAccount(
+                        email,
+                        name,
+                        password,
+                        isRememberEnabled,
+                        success,
+                        error
+                    )
+                }
             }
-
-            val error = {
-                AppSnackBarBuilder.buildAlertSnackBar(requireContext(), container,
-                    getString(R.string.create_account_failed), Snackbar.LENGTH_SHORT).show()
-            }
-
-            viewModel.registerAccount(email, name, password, isRememberEnabled, success, error)
 
         }
 

@@ -17,9 +17,9 @@
         android:title="@string/menu_map" />
 
     <item
-        android:id="@+id/navigation_user_recognitions"
-        android:icon="@drawable/icon_my_recognition"
-        android:title="@string/menu_user_recognitions" />
+        android:id="@+id/navigation_reports"
+        android:icon="@drawable/icon_report"
+        android:title="@string/menu_reports" />
 
     <item
         android:id="@+id/navigation_settings"

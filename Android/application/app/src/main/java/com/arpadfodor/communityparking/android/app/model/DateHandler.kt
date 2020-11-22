@@ -20,7 +20,9 @@ object DateHandler{
         try{
             date = formatter.parse(dateString) ?: defaultDate
         }
-        catch (e: Exception){}
+        catch (e: Exception){
+
+        }
         finally{
             return date
         }

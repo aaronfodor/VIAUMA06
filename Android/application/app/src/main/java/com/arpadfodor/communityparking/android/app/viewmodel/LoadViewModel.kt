@@ -4,9 +4,11 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Size
 import androidx.lifecycle.MutableLiveData
+import com.arpadfodor.communityparking.android.app.model.AccountService
 import com.arpadfodor.communityparking.android.app.model.ImageConverter
 import com.arpadfodor.communityparking.android.app.model.MediaHandler
 import com.arpadfodor.communityparking.android.app.model.MetaProvider
+import com.arpadfodor.communityparking.android.app.model.repository.dataclasses.Report
 import com.arpadfodor.communityparking.android.app.viewmodel.utils.AppViewModel
 
 class LoadViewModel : AppViewModel(){
@@ -35,13 +37,23 @@ class LoadViewModel : AppViewModel(){
         MutableLiveData<Array<String>>()
     }
 
+    /**
+     * List of recognitions from the last inference
+     **/
+    val recognitions: MutableLiveData<Array<Report>> by lazy {
+        MutableLiveData<Array<Report>>()
+    }
+
     fun loadImage(selectedImageUri: Uri, callback: (Boolean) -> Unit){
 
         Thread {
+
             val sourceBitmap = MediaHandler.getImageByUri(selectedImageUri)
+
             sourceBitmap ?: callback(false)
 
             sourceBitmap?.let {
+
                 val imageOrientation = MediaHandler.getPhotoOrientation(selectedImageUri)
                 val imageMetaInfo = MetaProvider.getImageMetaData(selectedImageUri)
 
@@ -49,6 +61,9 @@ class LoadViewModel : AppViewModel(){
 
                 val rotatedBitmap = ImageConverter.rotateBitmap(it, imageOrientation)
                 loadedImage.postValue(rotatedBitmap)
+
+                prepareRecognitions(rotatedBitmap, imageMetaInfo)
+
             }
 
         }.start()
@@ -56,15 +71,48 @@ class LoadViewModel : AppViewModel(){
     }
 
     fun rotateImage(){
+
         val sourceBitmap = loadedImage.value ?: return
+
         Thread {
+
             val rotatedBitmap = ImageConverter.rotateBitmap(sourceBitmap, 90)
             loadedImage.postValue(rotatedBitmap)
+
+            prepareRecognitions(rotatedBitmap, imageMetaData.value ?: arrayOf("", "", ""))
+
         }.start()
+
+    }
+
+    private fun prepareRecognitions(rotatedBitmap: Bitmap, imageMeta: Array<String>){
+
+        val recognitions = arrayListOf<Report>()
+        val user = AccountService.userId
+
+        recognitions.add(
+            Report(
+                id = 1,
+                reporterEmail = user,
+                latitude = imageMeta[1].toDouble(),
+                longitude = imageMeta[2].toDouble(),
+                timestampUTC = imageMeta[0],
+                message = "",
+                reservingEmail = "",
+                feePerHour = null,
+                image = rotatedBitmap)
+        )
+
+        this.recognitions.postValue(recognitions.toTypedArray())
+
     }
 
     fun setScreenProperties(width: Int, height: Int){
         screenDimensions = Size(width, height)
+    }
+
+    fun setAlertActivityParams(){
+        NewReportViewModel.setParameter(recognitions.value?.toList() ?: listOf())
     }
 
 }

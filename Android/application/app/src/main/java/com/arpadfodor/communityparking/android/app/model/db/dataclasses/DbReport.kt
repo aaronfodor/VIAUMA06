@@ -11,7 +11,7 @@ import java.io.Serializable
 data class DbReport(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "id")
-    val Id: String = "",
+    val Id: Int = 0,
     @ColumnInfo(name = "reporter")
     val reporterEmail: String = "",
     @ColumnInfo(name = "latitude")
@@ -22,10 +22,10 @@ data class DbReport(
     val timestampUTC: String = DateHandler.dateToString(DateHandler.defaultDate()),
     @ColumnInfo(name = "message")
     val message: String = "",
-    @ColumnInfo(name = "is_reserved")
-    val isReserved: Boolean = false,
+    @ColumnInfo(name = "reserving_email")
+    val reservingEmail: String = "",
     @ColumnInfo(name = "fee_per_hour")
-    val feePerHour: Int = 0,
+    val feePerHour: Double? = null,
     @ColumnInfo(name = "image_path")
     var imagePath: String? = null
 ) : Serializable

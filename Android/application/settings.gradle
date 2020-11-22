@@ -1,2 +1,2 @@
-rootProject.name='Stolen Vehicle Detector'
+rootProject.name='Community Parking'
 include ':app'

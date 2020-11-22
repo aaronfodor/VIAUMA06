@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="report_item"
+            type="com.arpadfodor.communityparking.android.app.model.repository.dataclasses.Report"/>
+        <variable
+            name="clickListener"
+            type="com.arpadfodor.communityparking.android.app.view.utils.ReportEventListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/listElementContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        style="@style/ListElementContainer"
+        android:onClick="@{() -> clickListener.onEditClick(report_item)}">
+
+        <TextView
+            android:id="@+id/reportPrice"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/reportEditButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:ReportPrice="@{report_item}"
+            style="@style/SubtitleTop" />
+
+        <TextView
+            android:id="@+id/reportReservation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/reportEditButton"
+            app:layout_constraintTop_toBottomOf="@+id/reportPrice"
+            app:ReportReservation="@{report_item}"
+            style="@style/ParagraphBodyThin" />
+
+        <TextView
+            android:id="@+id/reportDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/reportEditButton"
+            app:layout_constraintTop_toBottomOf="@+id/reportReservation"
+            app:ReportDate="@{report_item}"
+            style="@style/ParagraphBodyThin" />
+
+        <TextView
+            android:id="@+id/reportLocation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/reportEditButton"
+            app:layout_constraintTop_toBottomOf="@+id/reportDate"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:ReportLocation="@{report_item}"
+            style="@style/ParagraphBodyBottom" />
+
+        <ImageButton
+            android:id="@+id/reportEditButton"
+            android:layout_width="@dimen/round_button_small"
+            android:layout_height="@dimen/round_button_small"
+            android:layout_marginEnd="@dimen/paragraph_margin"
+            android:background="@android:color/transparent"
+            android:padding="@dimen/spacing_small"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/icon_edit_report"
+            android:contentDescription="@string/edit_report"
+            android:onClick="@{() -> clickListener.onEditClick(report_item)}"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

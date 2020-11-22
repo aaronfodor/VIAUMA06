@@ -109,8 +109,8 @@ abstract class AppActivity : AppCompatActivity(), NavigationView.OnNavigationIte
                 startActivity(intent)
             }
 
-            R.id.navigation_user_recognitions -> {
-                val toStartActivity = RecognitionActivity::class.java
+            R.id.navigation_reports -> {
+                val toStartActivity = ReportActivity::class.java
                 if(toStartActivity == this::class.java){
                     return false
                 }

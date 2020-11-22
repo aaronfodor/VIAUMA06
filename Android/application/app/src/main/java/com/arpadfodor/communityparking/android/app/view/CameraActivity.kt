@@ -51,22 +51,6 @@ class CameraActivity : AppActivity() {
     }
 
     override fun subscribeToViewModel() {
-
-        // read settings from preferences
-        val settings = PreferenceManager.getDefaultSharedPreferences(applicationContext)
-
-        val settingsNumRecognitionsKey = getString(R.string.SETTINGS_NUM_RECOGNITIONS)
-        val settingsMinimumPredictionCertaintyKey = getString(R.string.SETTINGS_MINIMUM_PREDICTION_CERTAINTY)
-        val settingsShowReceptiveFieldKey = getString(R.string.SETTINGS_SHOW_RECEPTIVE_FIELD)
-
-        val numRecognitionsToShow = settings.getInt(settingsNumRecognitionsKey, resources.getInteger(R.integer.settings_num_recognitions_default))
-        val minimumPredictionCertaintyToShow = settings.getInt(settingsMinimumPredictionCertaintyKey, resources.getInteger(R.integer.settings_minimum_prediction_certainty_default))
-        val settingsShowReceptiveField = settings.getBoolean(settingsShowReceptiveFieldKey, resources.getBoolean(R.bool.settings_receptive_field_default))
-
-        CameraViewModel.numRecognitionsToShow = numRecognitionsToShow
-        CameraViewModel.minimumPredictionCertaintyToShow = minimumPredictionCertaintyToShow.toFloat()
-        CameraViewModel.settingsShowReceptiveField = settingsShowReceptiveField
-
     }
 
     override fun subscribeListeners() {

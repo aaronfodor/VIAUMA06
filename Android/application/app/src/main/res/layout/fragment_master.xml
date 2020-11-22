@@ -14,7 +14,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         style="@style/TitleText"
-        android:text="@string/recognition_list"/>
+        android:text="@string/report_list"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recognition_list"

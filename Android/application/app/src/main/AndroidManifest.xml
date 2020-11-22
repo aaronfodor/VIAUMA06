@@ -90,14 +90,14 @@
             android:theme="@style/AppTheme" />
 
         <activity
-            android:name="com.arpadfodor.communityparking.android.app.view.AlertActivity"
+            android:name="com.arpadfodor.communityparking.android.app.view.NewReportActivity"
             android:icon="@mipmap/ic_launcher"
             android:rotationAnimation="seamless"
             android:screenOrientation="fullUser"
             android:theme="@style/AppTheme" />
 
         <activity
-            android:name="com.arpadfodor.communityparking.android.app.view.RecognitionActivity"
+            android:name="com.arpadfodor.communityparking.android.app.view.ReportActivity"
             android:icon="@mipmap/ic_launcher"
             android:rotationAnimation="seamless"
             android:screenOrientation="fullUser"

@@ -10,11 +10,9 @@ import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.preference.PreferenceManager
 import com.arpadfodor.communityparking.android.app.ApplicationRoot
 import com.arpadfodor.communityparking.android.app.R
 import com.arpadfodor.communityparking.android.app.viewmodel.LoadViewModel
-import com.arpadfodor.communityparking.android.app.model.repository.dataclasses.UserRecognition
 import com.arpadfodor.communityparking.android.app.view.utils.*
 import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
@@ -38,19 +36,15 @@ class LoadActivity : AppActivity() {
 
         //due to an Android bug, setting clip to outline cannot be done from XML
         ivLoadedImage.clipToOutline = true
-        Glide
-            .with(this)
-            .load(R.drawable.icon_photo_library)
-            .into(ivLoadedImage)
 
-        extendedFabLoadHelp.setOnClickListener {
+        extendedFabLoadAction.setOnClickListener {
             loadImage()
         }
 
-        extendedFabLoadHelp.text = getString(R.string.load_an_image)
-        extendedFabLoadHelp.icon = ContextCompat.getDrawable(this, R.drawable.icon_photo_library)
-        extendedFabLoadHelp.iconTint = ContextCompat.getColorStateList(this, R.color.selector_ic)
-        extendedFabLoadHelp.backgroundTintList = ContextCompat.getColorStateList(this, R.color.selector_fab_normal_color)
+        extendedFabLoadAction.text = getString(R.string.load_an_image)
+        extendedFabLoadAction.icon = ContextCompat.getDrawable(this, R.drawable.icon_photo_library)
+        extendedFabLoadAction.iconTint = ContextCompat.getColorStateList(this, R.color.selector_ic)
+        extendedFabLoadAction.backgroundTintList = ContextCompat.getColorStateList(this, R.color.selector_fab_normal_color)
 
     }
 
@@ -72,18 +66,6 @@ class LoadActivity : AppActivity() {
             container.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN and View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
         }, ApplicationRoot.IMMERSIVE_FLAG_TIMEOUT)
 
-        // read settings from preferences
-        val settings = PreferenceManager.getDefaultSharedPreferences(applicationContext)
-
-        val settingsNumRecognitionsKey = getString(R.string.SETTINGS_NUM_RECOGNITIONS)
-        val settingsMinimumPredictionCertaintyKey = getString(R.string.SETTINGS_MINIMUM_PREDICTION_CERTAINTY)
-
-        val numRecognitionsToShow = settings.getInt(settingsNumRecognitionsKey, resources.getInteger(R.integer.settings_num_recognitions_default))
-        val minimumPredictionCertaintyToShow = settings.getInt(settingsMinimumPredictionCertaintyKey, resources.getInteger(R.integer.settings_minimum_prediction_certainty_default))
-
-        LoadViewModel.numRecognitionsToShow = numRecognitionsToShow
-        LoadViewModel.minimumPredictionCertaintyToShow = minimumPredictionCertaintyToShow.toFloat()
-
     }
 
     override fun subscribeToViewModel() {
@@ -96,85 +78,27 @@ class LoadActivity : AppActivity() {
             Glide
                 .with(this)
                 .load(newImage)
-                .centerCrop()
+                .centerInside()
                 .error(R.drawable.icon_photo_library)
                 .placeholder(R.drawable.icon_photo_library)
                 .into(ivLoadedImage)
             ivLoadedImage.appearingAnimation(this)
 
-        }
-
-        // Create the image observer which updates the UI in case of bounding box image change
-        val boundingBoxImageObserver = Observer<Bitmap> { newImage ->
-            // Update the UI, in this case, the ImageView
-            Glide
-                .with(this)
-                .load(newImage)
-                .centerCrop()
-                .into(ivLoadedImageBoundingBoxes)
-        }
-
-        // Create the suspicious Id observer which notifies when suspicious element has been recognized
-        val recognitionsObserver = Observer<Array<UserRecognition>> { recognitions ->
-
-            if(recognitions.isNotEmpty()){
-
-                alertLoadedButton.setOnClickListener {
-                    viewModel.setAlertActivityParams()
-                    val intent = Intent(this, AlertActivity::class.java)
-                    startActivity(intent)
-                }
-
-                extendedFabLoadHelp.setOnClickListener {
-                    viewModel.setAlertActivityParams()
-                    val intent = Intent(this, AlertActivity::class.java)
-                    startActivity(intent)
-                }
-
-                if(alertLoadedButton.visibility == View.GONE){
-                    alertLoadedButton.appearingAnimation(this)
-                }
-
-                extendedFabLoadHelp.text = getString(R.string.view_alert)
-                extendedFabLoadHelp.icon = ContextCompat.getDrawable(this, android.R.drawable.ic_dialog_alert)
-                extendedFabLoadHelp.iconTint = ContextCompat.getColorStateList(this, R.color.selector_ic)
-                extendedFabLoadHelp.backgroundTintList = ContextCompat.getColorStateList(this, R.color.selector_fab_alert_color)
-
+            extendedFabLoadAction.setOnClickListener {
+                viewModel.setAlertActivityParams()
+                val intent = Intent(this, NewReportActivity::class.java)
+                startActivity(intent)
             }
-            else{
 
-                if(alertLoadedButton.visibility == View.VISIBLE){
-                    alertLoadedButton.disappearingAnimation(this)
-                }
-
-                if(viewModel.loadedImage.value != null){
-
-                    extendedFabLoadHelp.setOnClickListener {}
-                    extendedFabLoadHelp.text = getString(R.string.inspected)
-                    extendedFabLoadHelp.icon = ContextCompat.getDrawable(this, R.drawable.icon_done)
-
-                }
-                else{
-
-                    extendedFabLoadHelp.setOnClickListener {
-                        loadImage()
-                    }
-                    extendedFabLoadHelp.text = getString(R.string.load_an_image)
-                    extendedFabLoadHelp.icon = ContextCompat.getDrawable(this, R.drawable.icon_photo_library)
-
-                }
-
-                extendedFabLoadHelp.iconTint = ContextCompat.getColorStateList(this, R.color.selector_ic)
-                extendedFabLoadHelp.backgroundTintList = ContextCompat.getColorStateList(this, R.color.selector_fab_normal_color)
-
-            }
+            extendedFabLoadAction.text = getString(R.string.add_report)
+            extendedFabLoadAction.icon = ContextCompat.getDrawable(this, R.drawable.icon_add_report)
+            extendedFabLoadAction.iconTint = ContextCompat.getColorStateList(this, R.color.selector_ic)
+            extendedFabLoadAction.backgroundTintList = ContextCompat.getColorStateList(this, R.color.selector_fab_alert_color)
 
         }
 
         // Observe the LiveData, passing in this viewLifeCycleOwner as the LifecycleOwner and the observer
         viewModel.loadedImage.observe(this, imageObserver)
-        viewModel.boundingBoxImage.observe(this, boundingBoxImageObserver)
-        viewModel.recognitions.observe(this, recognitionsObserver)
 
     }
 
@@ -233,7 +157,7 @@ class LoadActivity : AppActivity() {
     override fun appearingAnimations(){
         load_image_button.overshootAppearingAnimation(this)
         loaded_image_rotate_button.overshootAppearingAnimation(this)
-        extendedFabLoadHelp.overshootAppearingAnimation(this)
+        extendedFabLoadAction.overshootAppearingAnimation(this)
     }
 
 }

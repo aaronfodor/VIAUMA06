@@ -34,8 +34,8 @@ abstract class MasterDetailActivity() : AppActivity() {
         val navigation = findViewById<NavigationView>(R.id.recognitionNavigation)
         initUi(drawer, navigation)
 
-        listName = getString(R.string.recognition_list)
-        detailName = getString(R.string.recognition_details)
+        listName = getString(R.string.report_list)
+        detailName = getString(R.string.report_details)
 
         if (findViewById<ConstraintLayout>(R.id.detail_container) != null) {
             // The detail container view will be present only in the

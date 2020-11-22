@@ -8,7 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arpadfodor.communityparking.android.app.R
 import com.arpadfodor.communityparking.android.app.viewmodel.utils.MasterDetailViewModel
-import com.arpadfodor.communityparking.android.app.model.repository.dataclasses.UserRecognition
+import com.arpadfodor.communityparking.android.app.model.repository.dataclasses.Report
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_master.*
 
@@ -44,7 +44,7 @@ class MasterFragment : AppFragment(){
 
     }
 
-    private lateinit var adapter: RecognitionListAdapter
+    private lateinit var adapter: ReportListAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_master, container, false)
@@ -55,7 +55,7 @@ class MasterFragment : AppFragment(){
         super.onViewCreated(view, savedInstanceState)
         recognition_list_title.text = title
 
-        adapter = RecognitionListAdapter(requireContext(), createEventListener())
+        adapter = ReportListAdapter(requireContext(), createEventListener())
         recognition_list.adapter = adapter
         recognition_list.layoutManager = LinearLayoutManager(requireContext())
 
@@ -64,13 +64,13 @@ class MasterFragment : AppFragment(){
     override fun subscribeToViewModel() {
 
         // Create the observer
-        val listObserver = Observer<List<UserRecognition>> { list ->
+        val listObserver = Observer<List<Report>> { list ->
             adapter.submitList(list)
             adapter.notifyDataSetChanged()
         }
 
         // Observe the LiveData, passing in this viewLifeCycleOwner as the LifecycleOwner and the observer
-        viewModel.recognitions.observe(requireActivity(), listObserver)
+        viewModel.reports.observe(requireActivity(), listObserver)
 
     }
 
@@ -78,9 +78,9 @@ class MasterFragment : AppFragment(){
     override fun subscribeListeners(){}
     override fun unsubscribe(){}
 
-    private fun createEventListener() : RecognitionEventListener {
+    private fun createEventListener() : ReportEventListener {
 
-        return RecognitionEventListener(
+        return ReportEventListener(
 
             editClickListener = { id ->
                 viewModel.selectRecognition(id)
@@ -91,47 +91,28 @@ class MasterFragment : AppFragment(){
                 val recognition = DetailFragment.viewModel.getRecognitionById(id)
                 recognition?.let{
 
-                    if(recognition.isSent){
+                    viewModel.sendReport(id) { isSuccess ->
 
                         val currentContext = context
                         val currentView = view
-                        currentContext ?: return@RecognitionEventListener
-                        currentView ?: return@RecognitionEventListener
+                        currentContext ?: return@sendReport
+                        currentView ?: return@sendReport
 
-                        AppSnackBarBuilder.buildInfoSnackBar(
-                            currentContext,
-                            currentView, alreadySentSnackBarText,
-                            Snackbar.LENGTH_SHORT
-                        ).show()
-
-                    }
-
-                    else{
-
-                        viewModel.sendRecognition(id) { isSuccess ->
-
-                            val currentContext = context
-                            val currentView = view
-                            currentContext ?: return@sendRecognition
-                            currentView ?: return@sendRecognition
-
-                            when (isSuccess) {
-                                true -> {
-                                    AppSnackBarBuilder.buildSuccessSnackBar(
-                                        currentContext,
-                                        currentView, sendSucceedSnackBarText,
-                                        Snackbar.LENGTH_SHORT
-                                    ).show()
-                                }
-                                else -> {
-                                    AppSnackBarBuilder.buildAlertSnackBar(
-                                        currentContext,
-                                        currentView, sendFailedSnackBarText,
-                                        Snackbar.LENGTH_SHORT
-                                    ).show()
-                                }
+                        when (isSuccess) {
+                            true -> {
+                                AppSnackBarBuilder.buildSuccessSnackBar(
+                                    currentContext,
+                                    currentView, sendSucceedSnackBarText,
+                                    Snackbar.LENGTH_SHORT
+                                ).show()
                             }
-
+                            else -> {
+                                AppSnackBarBuilder.buildAlertSnackBar(
+                                    currentContext,
+                                    currentView, sendFailedSnackBarText,
+                                    Snackbar.LENGTH_SHORT
+                                ).show()
+                            }
                         }
 
                     }
@@ -142,12 +123,12 @@ class MasterFragment : AppFragment(){
 
             deleteClickListener = { id ->
 
-                viewModel.deleteRecognition(id){ isSuccess ->
+                viewModel.deleteReport(id){ isSuccess ->
 
                     val currentContext = context
                     val currentView = view
-                    currentContext ?: return@deleteRecognition
-                    currentView ?: return@deleteRecognition
+                    currentContext ?: return@deleteReport
+                    currentView ?: return@deleteReport
 
                     when (isSuccess) {
                         true -> {

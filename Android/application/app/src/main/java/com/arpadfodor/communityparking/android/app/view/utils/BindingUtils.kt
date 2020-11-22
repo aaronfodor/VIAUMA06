@@ -1,84 +1,39 @@
 package com.arpadfodor.communityparking.android.app.view.utils
 
 import androidx.databinding.BindingAdapter
-import android.view.View
-import android.widget.ImageButton
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import com.arpadfodor.communityparking.android.app.R
-import com.arpadfodor.communityparking.android.app.model.repository.dataclasses.UserRecognition
+import com.arpadfodor.communityparking.android.app.model.repository.dataclasses.Report
 
-@BindingAdapter("recognitionId")
-fun TextView.setRecognitionId(item: UserRecognition) {
-    text = item.licenseId
-}
-
-@BindingAdapter("recognitionDate")
-fun TextView.setRecognitionDate(item: UserRecognition) {
-    text = context.getString(R.string.recognition_item_timestamp, item.date)
-}
-
-@BindingAdapter("recognitionLocation")
-fun TextView.setRecognitionLocation(item: UserRecognition) {
-    text = context.getString(R.string.recognition_item_location, item.longitude.toFloat(), item.latitude.toFloat())
-}
-
-@BindingAdapter("recognitionMessage")
-fun TextView.setRecognitionMessage(item: UserRecognition) {
-
-    visibility = if(item.message.isEmpty()){
-        View.GONE
+@BindingAdapter("ReportPrice")
+fun TextView.setReportPrice(item: Report) {
+    text = if (item.feePerHour == null) {
+        context.getString(R.string.report_item_price_unknown)
     }
     else{
-        View.VISIBLE
+        context.getString(R.string.report_item_price_long, item.feePerHour.toString())
     }
-
-    text = context.getString(R.string.recognition_item_message, item.message)
-
 }
 
-@BindingAdapter("recognitionEditButton")
-fun ImageButton.setRecognitionEditButton(item: UserRecognition) {
-
-    if(item.isSent){
-        this.setImageResource(R.drawable.icon_info)
-    }
-    else{
-        this.setImageResource(R.drawable.icon_edit_recognition)
-    }
-
+@BindingAdapter("ReportDate")
+fun TextView.setReportDate(item: Report) {
+    text = context.getString(R.string.report_item_timestamp, item.timestampUTC)
 }
 
-@BindingAdapter("recognitionSendButton")
-fun ImageButton.setRecognitionSendButton(item: UserRecognition) {
-
-    if(item.isAlert){
-        if(item.isSent){
-            this.setImageResource(R.drawable.icon_added_recognition)
-        }
-        else{
-            this.setImageResource(R.drawable.icon_add_recognition)
-        }
-    }
-    else{
-        if(item.isSent){
-            this.setImageResource(R.drawable.icon_added_recognition)
-        }
-        else{
-            this.setImageResource(R.drawable.icon_send)
-        }
-    }
-
+@BindingAdapter("ReportLocation")
+fun TextView.setReportLocation(item: Report) {
+    text = context.getString(R.string.report_item_location, item.longitude.toFloat(), item.latitude.toFloat())
 }
 
-@BindingAdapter("recognitionBackground")
-fun ConstraintLayout.setListElementContainer(item: UserRecognition) {
+@BindingAdapter("ReportReservation")
+fun TextView.setReportReservation(item: Report) {
 
-    if(item.isSelected){
-        this.setBackgroundResource(R.drawable.selected_background)
+    val reservedText = if(item.reservingEmail.isNotEmpty()){
+        context.getString(R.string.report_item_reserved)
     }
     else{
-        this.setBackgroundResource(R.drawable.card_background)
+        context.getString(R.string.report_item_not_reserved)
     }
 
+    text = reservedText
 }

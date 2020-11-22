@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.arpadfodor.communityparking.android.app.model.db.dataclasses.*
 
 @Database(entities =
-    [DbReport::class, DbUserRecognition::class, DbUser::class, DbMetaData::class],
+    [DbReport::class, DbUser::class, DbMetaData::class],
     version = 1, exportSchema = false)
 abstract class ApplicationDB : RoomDatabase() {
 
@@ -15,7 +15,6 @@ abstract class ApplicationDB : RoomDatabase() {
 
         private const val APPLICATION_DB_NAME = "application_database"
         const val REPORT_TABLE_NAME = "report_table"
-        const val USER_RECOGNITION_TABLE_NAME = "user_recognition_table"
         const val USER_TABLE_NAME = "user_table"
         const val META_TABLE_NAME = "meta_table"
 
@@ -45,9 +44,7 @@ abstract class ApplicationDB : RoomDatabase() {
 
     }
 
-    abstract fun vehicleTable(): VehicleDAO
     abstract fun reportTable(): ReportDAO
-    abstract fun userRecognitionTable(): UserRecognitionDAO
     abstract fun userTable(): UserDAO
     abstract fun metaTable(): MetaDAO
 

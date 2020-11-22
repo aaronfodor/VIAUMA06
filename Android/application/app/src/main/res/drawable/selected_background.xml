@@ -5,7 +5,7 @@
         android:type="radial"
         android:gradientRadius="150%p"
         android:startColor="@color/colorAccent"
-        android:endColor="@color/colorCardBackgroundDark" />
+        android:endColor="@color/colorAccentBlue" />
     <corners android:radius="@dimen/card_corner_radius" />
     <corners android:radius="@dimen/card_corner_radius" />
 </shape>

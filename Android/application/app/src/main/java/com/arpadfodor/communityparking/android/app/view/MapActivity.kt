@@ -27,12 +27,13 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.content_map.*
+import kotlinx.android.synthetic.main.infowindow_map.*
 import java.util.*
 
 class MapActivity : AppActivity(), OnMapReadyCallback {
 
     companion object{
-        val TAG = MapActivity::class.java.simpleName
+        val TAG: String = MapActivity::class.java.simpleName
     }
 
     override lateinit var viewModel: MapViewModel
@@ -93,15 +94,15 @@ class MapActivity : AppActivity(), OnMapReadyCallback {
                 // Defines the contents of the InfoWindow
                 override fun getInfoContents(arg0: Marker): View? {
 
-                    val licenseId = arg0.title
+                    val price = arg0.title
                     val details = arg0.snippet
 
                     // Getting view from the layout file
                     val container= layoutInflater.inflate(R.layout.infowindow_map, null)
-                    val tvTitle = container.findViewById(R.id.mapRecognitionLicenseId) as TextView
+                    val tvTitle = container.findViewById(R.id.mapRecognitionPrice) as TextView
                     val tvInfo = container.findViewById(R.id.mapRecognitionDetails) as TextView
 
-                    tvTitle.text = licenseId
+                    tvTitle.text = price
                     tvInfo.text = details
 
                     // Returning the view containing InfoWindow contents
@@ -160,23 +161,32 @@ class MapActivity : AppActivity(), OnMapReadyCallback {
 
                 viewModel.removeMapMarkers()
 
-                val markerBitmap = ContextCompat.getDrawable(this, R.drawable.icon_recognition)?.toBitmap()
-                val markerDesc = BitmapDescriptorFactory.fromBitmap(markerBitmap)
+                val markerBitmapFree = ContextCompat.getDrawable(this, R.drawable.report_free)?.toBitmap()
+                val markerBitmapReserved = ContextCompat.getDrawable(this, R.drawable.report_reserved)?.toBitmap()
+
+                val markerDescFree = BitmapDescriptorFactory.fromBitmap(markerBitmapFree)
+                val markerDescReserved = BitmapDescriptorFactory.fromBitmap(markerBitmapReserved)
 
                 for(report in reports){
 
                     val currentMarker = it.addMarker(
                         MarkerOptions()
                             .position(LatLng(report.latitude, report.longitude))
-                            .title(report.Vehicle)
+                            .title(getString(R.string.marker_title, report.feePerHour.toString()))
                             .snippet(
                                 getString(
                                     R.string.marker_snippet, report.latitude, report.longitude,
-                                    report.timestampUTC, report.Reporter, report.message
+                                    report.timestampUTC, report.reporterEmail, report.message
                                 )
                             )
-                            .icon(markerDesc)
                     )
+
+                    if(report.reservingEmail.isNotEmpty()){
+                        currentMarker.setIcon(markerDescReserved)
+                    }
+                    else{
+                        currentMarker.setIcon(markerDescFree)
+                    }
 
                     viewModel.markers.add(currentMarker)
 

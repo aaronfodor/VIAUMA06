@@ -20,42 +20,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/detector_settings">
-
-        <SeekBarPreference
-            app:key="@string/SETTINGS_NUM_RECOGNITIONS"
-            android:title="@string/setting_num_recognitions"
-            android:summary="@string/setting_summary_num_recognitions"
-            android:enabled="true"
-            android:selectable="true"
-            app:showSeekBarValue="true"
-            android:max="@integer/settings_num_recognitions_max"
-            app:min="@integer/settings_num_recognitions_min"
-            android:defaultValue="@integer/settings_num_recognitions_default"/>
-
-        <SeekBarPreference
-            app:key="@string/SETTINGS_MINIMUM_PREDICTION_CERTAINTY"
-            android:title="@string/setting_min_certainty"
-            android:summary="@string/setting_summary_min_certainty"
-            android:enabled="true"
-            android:selectable="true"
-            app:showSeekBarValue="true"
-            android:max="@integer/settings_minimum_prediction_certainty_max"
-            app:min="@integer/settings_minimum_prediction_certainty_min"
-            android:defaultValue="@integer/settings_minimum_prediction_certainty_default"/>
-
-        <SwitchPreference
-            app:key="@string/SETTINGS_SHOW_RECEPTIVE_FIELD"
-            android:title="@string/setting_receptive_field"
-            android:summaryOn="@string/enabled"
-            android:summaryOff="@string/disabled"
-            android:enabled="true"
-            android:selectable="true"
-            android:defaultValue="@bool/settings_receptive_field_default"/>
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
         android:title="@string/sync_settings">
 
         <SwitchPreference
@@ -72,27 +36,10 @@
             android:selectable="true" />
 
         <Preference
-            android:key="@string/LAST_SYNCED_DB_VEHICLES"
-            android:title="@string/last_synced_db_vehicles"
-            app:useSimpleSummaryProvider="true">
-        </Preference>
-
-        <Preference
             android:key="@string/LAST_SYNCED_DB_REPORTS"
             android:title="@string/last_synced_db_reports"
             app:useSimpleSummaryProvider="true">
         </Preference>
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:title="@string/account_settings">
-
-        <Preference
-            android:key="@string/SETTINGS_DELETE_USER_REPORTS"
-            android:title="@string/delete_user_recognitions"
-            android:summary="@string/delete_user_recognitions_summary"
-            android:selectable="true" />
 
     </PreferenceCategory>
 

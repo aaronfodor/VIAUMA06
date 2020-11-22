@@ -1,11 +1,14 @@
 package com.arpadfodor.communityparking.android.app.viewmodel
 
+import android.graphics.Bitmap
 import android.util.Size
 import androidx.camera.core.AspectRatio
 import androidx.camera.core.CameraSelector
 import androidx.lifecycle.MutableLiveData
+import com.arpadfodor.communityparking.android.app.model.AccountService
 import com.arpadfodor.communityparking.android.app.model.MediaHandler
-import com.arpadfodor.communityparking.android.app.model.repository.dataclasses.UserRecognition
+import com.arpadfodor.communityparking.android.app.model.MetaProvider
+import com.arpadfodor.communityparking.android.app.model.repository.dataclasses.Report
 import com.arpadfodor.communityparking.android.app.viewmodel.utils.AppViewModel
 import java.io.OutputStream
 import kotlin.math.abs
@@ -21,13 +24,6 @@ class CameraViewModel : AppViewModel(){
 
         var KEY_EVENT_ACTION = ""
         var KEY_EVENT_EXTRA = ""
-
-        var numRecognitionsToShow = 10
-        var minimumPredictionCertaintyToShow = 0.5f
-            set(value) {
-                field = value/100f
-            }
-        var settingsShowReceptiveField = true
 
         var deviceOrientation: Int = 0
             // clustered device orientations - value can be 0, 90, 180, 270
@@ -52,15 +48,20 @@ class CameraViewModel : AppViewModel(){
 
         var screenDimensions = Size(0, 0)
 
+        /**
+         * The current image
+         **/
+        var currentImage: Bitmap? = null
+
     }
 
     var lensFacing: Int = CameraSelector.LENS_FACING_BACK
 
     /**
-     * List of recognitions from the last inference
+     * List of reports
      **/
-    val recognitions: MutableLiveData<Array<UserRecognition>> by lazy {
-        MutableLiveData<Array<UserRecognition>>()
+    val recognitions: MutableLiveData<Array<Report>> by lazy {
+        MutableLiveData<Array<Report>>()
     }
 
     /**
@@ -96,8 +97,34 @@ class CameraViewModel : AppViewModel(){
         return MediaHandler.getImagePublicDirOutputStream()
     }
 
+    private fun prepareRecognitions() : List<Report> {
+
+        val imageMeta = MetaProvider.getDeviceMetaData()
+
+        val recognitions = arrayListOf<Report>()
+        val user = AccountService.userId
+
+        recognitions.add(
+            Report(
+                id = 1,
+                reporterEmail = user,
+                latitude = imageMeta[1].toDouble(),
+                longitude = imageMeta[2].toDouble(),
+                timestampUTC = imageMeta[0],
+                message = "",
+                reservingEmail = "",
+                feePerHour = null,
+                image = currentImage)
+        )
+
+        this.recognitions.postValue(recognitions.toTypedArray())
+        return recognitions
+
+    }
+
     fun setAlertActivityParams(){
-        AlertViewModel.setParameter(recognitions.value?.toList() ?: listOf())
+        val items = prepareRecognitions()
+        NewReportViewModel.setParameter(items)
     }
 
 }

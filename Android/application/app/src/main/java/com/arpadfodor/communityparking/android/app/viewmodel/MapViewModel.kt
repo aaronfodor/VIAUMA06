@@ -90,4 +90,40 @@ class MapViewModel : AppViewModel(){
 
     }
 
+    fun reserveButtonClicked(id: Int, callback: (Boolean, String) -> Unit){
+
+        val recognitionList = reports.value ?: return
+        val userEmail = AccountService.userId
+
+        var buttonText = ""
+        var buttonEnabled = true
+
+        recognitionList.forEach {
+            if(it.id == id){
+
+                when {
+                    it.reservingEmail == userEmail -> {
+                        buttonText = "Delete reservation"
+                        buttonEnabled = true
+                        it.reservingEmail = ""
+                    }
+                    it.reservingEmail.isNotEmpty() && it.reservingEmail != userEmail -> {
+                        buttonText = "Already reserved"
+                        buttonEnabled = false
+                    }
+                    it.reservingEmail.isEmpty() -> {
+                        buttonText = "Reserve"
+                        buttonEnabled = true
+                        it.reservingEmail = userEmail
+                    }
+                }
+
+            }
+        }
+
+        reports.postValue(recognitionList)
+        callback(buttonEnabled, buttonText)
+
+    }
+
 }

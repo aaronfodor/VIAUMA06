@@ -2,7 +2,6 @@ package com.arpadfodor.communityparking.android.app.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import com.arpadfodor.communityparking.android.app.model.AccountService
-import com.arpadfodor.communityparking.android.app.model.repository.UserRecognitionRepository
 import com.arpadfodor.communityparking.android.app.viewmodel.utils.AppViewModel
 
 class AccountViewModel : AppViewModel(){
@@ -25,10 +24,7 @@ class AccountViewModel : AppViewModel(){
     fun deleteAccount(success: () -> Unit, error: () -> Unit){
 
         AccountService.deleteAccount(
-            success = {
-            UserRecognitionRepository.deleteAllFromUser(AccountService.userId){}
-            success()
-            },
+            success = success,
             error = error)
 
     }

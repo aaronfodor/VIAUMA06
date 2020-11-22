@@ -9,7 +9,7 @@ data class ApiReport(
     val longitude: Double,
     val timestampUTC: String = "",
     val message: String = "",
-    val isReserved: Boolean,
-    val feePerHour: Int,
+    val reservingEmail: String,
+    val feePerHour: Double? = null,
     val image: Bitmap?
 )

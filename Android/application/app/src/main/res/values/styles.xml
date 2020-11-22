@@ -143,8 +143,8 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_margin">@dimen/paragraph_margin</item>
         <item name="android:adjustViewBounds">true</item>
-        <item name="android:scaleType">fitXY</item>
-        <item name="android:contentDescription">@string/recognition_image</item>
+        <item name="android:scaleType">centerInside</item>
+        <item name="android:contentDescription">@string/report_image</item>
     </style>
 
 </resources>

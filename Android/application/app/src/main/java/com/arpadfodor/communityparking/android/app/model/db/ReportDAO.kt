@@ -15,6 +15,9 @@ interface ReportDAO {
     @Query("DELETE FROM ${ApplicationDB.REPORT_TABLE_NAME}")
     fun deleteAll()
 
+    @Query("DELETE FROM ${ApplicationDB.REPORT_TABLE_NAME} WHERE id=:key ")
+    fun deleteByKey(key: Int)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(vararg report: DbReport)
 

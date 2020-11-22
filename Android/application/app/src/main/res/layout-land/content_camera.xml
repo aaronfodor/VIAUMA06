@@ -43,12 +43,6 @@
         style="@style/ExtendedFabHelp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/camera_capture_button"
-        app:layout_constraintBottom_toTopOf="@+id/camera_switch_button"
-        android:visibility="gone"/>
-
-    <include
-        layout="@layout/custom_alert_button"
-        android:id="@+id/alertLiveButton"
-        android:visibility="gone"/>
+        app:layout_constraintBottom_toTopOf="@+id/camera_switch_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

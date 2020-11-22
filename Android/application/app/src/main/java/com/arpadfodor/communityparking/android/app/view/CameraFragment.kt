@@ -14,7 +14,6 @@ import android.util.DisplayMetrics
 import android.util.Log
 import android.view.*
 import android.widget.ImageButton
-import android.widget.ImageView
 import androidx.camera.core.*
 import androidx.camera.core.Camera
 import androidx.camera.lifecycle.ProcessCameraProvider
@@ -25,13 +24,11 @@ import androidx.fragment.app.activityViewModels
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.arpadfodor.communityparking.android.app.R
 import com.arpadfodor.communityparking.android.app.viewmodel.CameraViewModel
-import com.arpadfodor.communityparking.android.app.viewmodel.analyzer.ImageAnalyzer
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
-import androidx.lifecycle.Observer
 import com.arpadfodor.communityparking.android.app.model.LocationService
-import com.arpadfodor.communityparking.android.app.model.repository.dataclasses.UserRecognition
 import com.arpadfodor.communityparking.android.app.view.utils.*
+import com.arpadfodor.communityparking.android.app.viewmodel.analyzer.ImageAnalyzer
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 
@@ -56,11 +53,7 @@ class CameraFragment : AppFragment() {
 
     private lateinit var container: ConstraintLayout
     private lateinit var viewFinder: PreviewView
-    private lateinit var boundingBoxesImageView: ImageView
-    private lateinit var boundingBoxesImageViewBckg: ImageView
-
     private lateinit var broadcastManager: LocalBroadcastManager
-
     private var displayId: Int = -1
     private var preview: Preview? = null
     private var imageCapture: ImageCapture? = null
@@ -123,8 +116,6 @@ class CameraFragment : AppFragment() {
 
         container = view as ConstraintLayout
         viewFinder = container.findViewById(R.id.view_finder)
-        boundingBoxesImageView = container.findViewById(R.id.ivBoundingBoxes)
-        boundingBoxesImageViewBckg = container.findViewById(R.id.ivBoundingBoxesBck)
 
         // Initialize the background executor
         cameraExecutor = Executors.newSingleThreadExecutor()
@@ -243,16 +234,8 @@ class CameraFragment : AppFragment() {
                 // The analyzer can then be assigned to the instance
                 .also {
 
-                    it.setAnalyzer(cameraExecutor, ImageAnalyzer( { boundingBoxImage ->
-
-                        if(viewFinder.isLaidOut){
-
-                            activity?.runOnUiThread{
-                                boundingBoxesImageView.setImageBitmap(boundingBoxImage)
-                            }
-
-                        }
-
+                    it.setAnalyzer(cameraExecutor, ImageAnalyzer( { image ->
+                        CameraViewModel.currentImage = image
                     }, viewModel))
 
                 }
@@ -397,68 +380,23 @@ class CameraFragment : AppFragment() {
 
     override fun subscribeToViewModel() {
 
-        val alertLiveButton = controls?.findViewById<ConstraintLayout>(R.id.alertLiveButton) ?: return
-        val extendedFabLiveHelp = controls?.findViewById<ExtendedFloatingActionButton>(R.id.extendedFabLiveHelp) ?: return
+        val extendedFabLiveAction = controls?.findViewById<ExtendedFloatingActionButton>(R.id.extendedFabLiveHelp) ?: return
 
-        extendedFabLiveHelp.text = getString(R.string.searching)
-        extendedFabLiveHelp.icon = ContextCompat.getDrawable(requireContext(), R.drawable.icon_image_search)
-        extendedFabLiveHelp.iconTint = ContextCompat.getColorStateList(requireContext(), R.color.selector_ic)
-        extendedFabLiveHelp.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.selector_fab_normal_color)
-        extendedFabLiveHelp.overshootAppearingAnimation(requireContext())
+        extendedFabLiveAction.text = getString(R.string.add_report)
+        extendedFabLiveAction.icon = ContextCompat.getDrawable(requireContext(), R.drawable.icon_add_report)
+        extendedFabLiveAction.iconTint = ContextCompat.getColorStateList(requireContext(), R.color.selector_ic)
+        extendedFabLiveAction.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.selector_fab_alert_color)
+        extendedFabLiveAction.overshootAppearingAnimation(requireContext())
 
-        // Create the recognitions observer which notifies when element has been recognized
-        val recognitionsObserver = Observer<Array<UserRecognition>> { recognitions ->
+        extendedFabLiveAction.setOnClickListener {
 
-            if(recognitions.isNotEmpty()){
+            LocationService.updateLocation()
 
-                alertLiveButton.setOnClickListener {
-
-                    LocationService.updateLocation()
-
-                    viewModel.setAlertActivityParams()
-                    val intent = Intent(this.requireActivity(), AlertActivity::class.java)
-                    startActivity(intent)
-
-                }
-                extendedFabLiveHelp.setOnClickListener {
-
-                    LocationService.updateLocation()
-
-                    viewModel.setAlertActivityParams()
-                    val intent = Intent(this.requireActivity(), AlertActivity::class.java)
-                    startActivity(intent)
-
-                }
-
-                if(alertLiveButton.visibility == View.GONE){
-                    alertLiveButton.appearingAnimation(requireContext())
-                }
-
-                extendedFabLiveHelp.text = getString(R.string.view_alert)
-                extendedFabLiveHelp.icon = ContextCompat.getDrawable(requireContext(), android.R.drawable.ic_dialog_alert)
-                extendedFabLiveHelp.iconTint = ContextCompat.getColorStateList(requireContext(), R.color.selector_ic)
-                extendedFabLiveHelp.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.selector_fab_alert_color)
-
-            }
-            else{
-
-                extendedFabLiveHelp.setOnClickListener {}
-
-                if(alertLiveButton.visibility == View.VISIBLE){
-                    alertLiveButton.disappearingAnimation(requireContext())
-                }
-
-                extendedFabLiveHelp.text = getString(R.string.searching)
-                extendedFabLiveHelp.icon = ContextCompat.getDrawable(requireContext(), R.drawable.icon_image_search)
-                extendedFabLiveHelp.iconTint = ContextCompat.getColorStateList(requireContext(), R.color.selector_ic)
-                extendedFabLiveHelp.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.selector_fab_normal_color)
-
-            }
+            viewModel.setAlertActivityParams()
+            val intent = Intent(this.requireActivity(), NewReportActivity::class.java)
+            startActivity(intent)
 
         }
-
-        // Observe the LiveData, passing in this viewLifeCycleOwner as the LifecycleOwner and the observer
-        viewModel.recognitions.observe(this.viewLifecycleOwner, recognitionsObserver)
 
     }
 
@@ -477,26 +415,6 @@ class CameraFragment : AppFragment() {
                 getString(R.string.image_save_failed), Snackbar.LENGTH_SHORT).show()
         }
 
-    }
-
-    override fun onResume() {
-
-        super.onResume()
-
-        if(CameraViewModel.settingsShowReceptiveField){
-            boundingBoxesImageView.background = ContextCompat.getDrawable(requireActivity().applicationContext, R.drawable.receptive_field_marker)
-            boundingBoxesImageViewBckg.background = ContextCompat.getDrawable(requireActivity().applicationContext, R.drawable.receptive_field_marker)
-        }
-        else{
-            boundingBoxesImageView.background = null
-            boundingBoxesImageViewBckg.background = null
-        }
-
-    }
-
-    override fun onPause(){
-        super.onPause()
-        boundingBoxesImageViewBckg.removeAnimation()
     }
 
     override fun appearingAnimations(){}

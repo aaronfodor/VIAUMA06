@@ -8,9 +8,7 @@ import androidx.preference.PreferenceManager
 import com.arpadfodor.communityparking.android.app.ApplicationRoot
 import com.arpadfodor.communityparking.android.app.R
 import com.arpadfodor.communityparking.android.app.model.AccountService
-import com.arpadfodor.communityparking.android.app.model.ai.VehicleRecognizerService
 import com.arpadfodor.communityparking.android.app.model.repository.GeneralRepository
-import com.arpadfodor.communityparking.android.app.model.repository.UserRecognitionRepository
 import com.arpadfodor.communityparking.android.app.view.utils.AppSnackBarBuilder
 import com.google.android.material.snackbar.Snackbar
 import java.util.*
@@ -18,11 +16,7 @@ import java.util.*
 class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private var settingsKeepScreenAlive = ""
-    private var settingsMaximumRecognitions = ""
-    private var settingsMinimumPredictionCertainty = ""
-    private var settingsShowReceptiveField = ""
     private var settingsAutoSync = ""
-    private var settingsLastSyncedDbVehicles = ""
     private var settingsLastSyncedDbReports = ""
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -34,11 +28,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         super.onResume()
 
         settingsKeepScreenAlive = getString(R.string.SETTINGS_KEEP_SCREEN_ALIVE)
-        settingsMaximumRecognitions = getString(R.string.SETTINGS_NUM_RECOGNITIONS)
-        settingsMinimumPredictionCertainty = getString(R.string.SETTINGS_MINIMUM_PREDICTION_CERTAINTY)
-        settingsShowReceptiveField = getString(R.string.SETTINGS_SHOW_RECEPTIVE_FIELD)
         settingsAutoSync = getString(R.string.SETTINGS_AUTO_SYNC)
-        settingsLastSyncedDbVehicles = getString(R.string.LAST_SYNCED_DB_VEHICLES)
         settingsLastSyncedDbReports = getString(R.string.LAST_SYNCED_DB_REPORTS)
 
         preferenceScreen.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
@@ -48,18 +38,10 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         updatePreferenceUpdatedTimestamp(preferences)
 
         val syncButton: Preference? = findPreference(getString(R.string.SETTINGS_SYNC_NOW))
-        val deleteUserReportsButton: Preference? = findPreference(getString(R.string.SETTINGS_DELETE_USER_REPORTS))
 
         syncButton?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
 
-            GeneralRepository.updateAll{ isVehiclesSuccess, isReportsSuccess ->
-
-                    if(isVehiclesSuccess){
-                        val currentTime = Calendar.getInstance().time.toString()
-                        preferences.edit().putString(getString(R.string.LAST_SYNCED_DB_VEHICLES), currentTime)
-                            .apply()
-                    }
-                    VehicleRecognizerService.initialize()
+            GeneralRepository.updateAll{ isReportsSuccess ->
 
                     if(isReportsSuccess){
                         val currentTime = Calendar.getInstance().time.toString()
@@ -67,20 +49,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
                             .apply()
                     }
 
-                    dbUpdateResultSnackBar(isVehiclesSuccess && isReportsSuccess)
+                    dbUpdateResultSnackBar(isReportsSuccess)
 
-            }
-
-            true
-
-        }
-
-        deleteUserReportsButton?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
-
-            val user = AccountService.userId
-
-            UserRecognitionRepository.deleteAllFromUser(user){ isSuccess ->
-                dbDeleteResultSnackBar(isSuccess)
             }
 
             true
@@ -124,30 +94,10 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
             putBoolean(settingsKeepScreenAlive, keepScreenOn)
             ApplicationRoot.keepScreenAlive = keepScreenOn
 
-            remove(settingsMaximumRecognitions)
-            putInt(settingsMaximumRecognitions, sharedPreferences.getInt(settingsMaximumRecognitions,
-                resources.getInteger(R.integer.settings_num_recognitions_default)
-            ))
-
-            remove(settingsMinimumPredictionCertainty)
-            putInt(settingsMinimumPredictionCertainty, sharedPreferences.getInt(settingsMinimumPredictionCertainty,
-                resources.getInteger(R.integer.settings_minimum_prediction_certainty_default)
-            ))
-
-            remove(settingsShowReceptiveField)
-            putBoolean(settingsShowReceptiveField, sharedPreferences.getBoolean(settingsShowReceptiveField,
-                resources.getBoolean(R.bool.settings_receptive_field_default)
-            ))
-
             remove(settingsAutoSync)
             putBoolean(settingsAutoSync, sharedPreferences.getBoolean(settingsAutoSync,
                 resources.getBoolean(R.bool.settings_auto_sync_default)
             ))
-
-            remove(settingsLastSyncedDbVehicles)
-            val updatedDbVehiclesTimestamp = sharedPreferences.getString(settingsLastSyncedDbVehicles,
-                resources.getString(R.string.settings_last_synced_default)).toString()
-            putString(settingsLastSyncedDbVehicles, updatedDbVehiclesTimestamp)
 
             remove(settingsLastSyncedDbReports)
             val updatedDbReportsTimestamp = sharedPreferences.getString(settingsLastSyncedDbReports,
@@ -162,11 +112,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
     }
 
     private fun updatePreferenceUpdatedTimestamp(sharedPreferences: SharedPreferences){
-
-        val dbVehiclesTimestamp = sharedPreferences.getString(settingsLastSyncedDbVehicles,
-            resources.getString(R.string.settings_last_synced_default)).toString()
-        preferenceManager.findPreference<Preference>(getString(R.string.LAST_SYNCED_DB_VEHICLES))?.
-        summary = dbVehiclesTimestamp
 
         val dbReportsTimestamp = sharedPreferences.getString(settingsLastSyncedDbReports,
             resources.getString(R.string.settings_last_synced_default)).toString()

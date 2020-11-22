@@ -16,25 +16,14 @@
         android:layout_height="0dp"
         android:background="@drawable/loaded_image"
         android:contentDescription="@string/loaded_image_description"
-        android:scaleType="center"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
         app:srcCompat="@drawable/icon_photo_library"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
-
-    <ImageView
-        android:id="@+id/ivLoadedImageBoundingBoxes"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="@+id/ivLoadedImage"
-        app:layout_constraintBottom_toBottomOf="@+id/ivLoadedImage"
-        app:layout_constraintStart_toStartOf="@+id/ivLoadedImage"
-        app:layout_constraintEnd_toEndOf="@+id/ivLoadedImage"
-        android:contentDescription="@string/ivBoundingBoxes_description"
-        android:visibility="visible"
-        android:scaleType="center" />
 
     <!-- Load and rotate buttons -->
 
@@ -65,18 +54,12 @@
         app:layout_constraintRight_toRightOf="parent" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/extendedFabLoadHelp"
+        android:id="@+id/extendedFabLoadAction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/ExtendedFabHelp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/loaded_image_rotate_button"
-        app:layout_constraintBottom_toTopOf="@+id/load_image_button"
-        android:visibility="gone"/>
-
-    <include
-        layout="@layout/custom_alert_button"
-        android:id="@+id/alertLoadedButton"
-        android:visibility="gone"/>
+        app:layout_constraintBottom_toTopOf="@+id/load_image_button"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

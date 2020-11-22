@@ -6,22 +6,22 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/mapRecognitionLicenseIdLabel"
+        android:id="@+id/mapRecognitionPriceLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         style="@style/ParagraphBodyTop"
         android:textColor="@color/colorPrimaryDark"
-        android:text="@string/license_id_title"/>
+        android:text="@string/price"/>
 
     <TextView
-        android:id="@+id/mapRecognitionLicenseId"
+        android:id="@+id/mapRecognitionPrice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mapRecognitionLicenseIdLabel"
+        app:layout_constraintTop_toBottomOf="@+id/mapRecognitionPriceLabel"
         style="@style/SubtitleBottom"
         android:textColor="@color/colorPrimaryDark"/>
 
@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mapRecognitionLicenseId"
+        app:layout_constraintTop_toBottomOf="@+id/mapRecognitionPrice"
         style="@style/ParagraphBodyTop"
         android:textColor="@color/colorPrimaryDark"
         android:text="@string/details"/>

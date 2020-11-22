@@ -12,8 +12,7 @@ object ReportRepository {
 
     private const val REPORTS_META_ID = "reports"
 
-    private fun setReports(reportList : List<Report>, reportsMeta: DbMetaData,
-                           callback: (Boolean) -> Unit){
+    private fun setReports(reportList : List<Report>, reportsMeta: DbMetaData, callback: (Boolean) -> Unit){
 
         Thread {
 
@@ -73,6 +72,32 @@ object ReportRepository {
             }
             finally {
                 callback(reports)
+            }
+
+        }.start()
+
+    }
+
+    fun deleteReport(id: Int, callback: (Boolean) -> Unit){
+
+        Thread {
+
+            val database = ApplicationDB.getDatabase(GeneralRepository.context)
+            var isSuccess = false
+
+            try {
+                // run delete, insert, etc. in an atomic transaction
+                database.runInTransaction {
+                    database.reportTable().deleteByKey(id)
+                }
+                //update the local flag
+                isSuccess = true
+            }
+            catch (e: Exception) {
+                e.printStackTrace()
+            }
+            finally {
+                callback(isSuccess)
             }
 
         }.start()
@@ -154,19 +179,18 @@ object ReportRepository {
 
     private fun apiReportToReport(source: ApiReport) : Report{
         return Report(source.id, source.reporterEmail, source.latitude, source.longitude,
-            source.timestampUTC, source.message, source.isReserved, source.feePerHour,
-            source.image, false)
+            source.timestampUTC, source.message, source.reservingEmail, source.feePerHour,
+            source.image)
     }
 
     private fun reportToDbReport(source: Report, imagePath: String?) : DbReport{
         return DbReport(source.id, source.reporterEmail, source.latitude, source.longitude,
-            source.timestampUTC, source.message, source.isReserved, source.feePerHour, imagePath)
+            source.timestampUTC, source.message, source.reservingEmail, source.feePerHour, imagePath)
     }
 
     private fun dbReportToReport(source: DbReport, image: Bitmap?) : Report{
         return Report(source.Id, source.reporterEmail, source.latitude, source.longitude,
-            source.timestampUTC, source.message, source.isReserved, source.feePerHour,
-            image, false)
+            source.timestampUTC, source.message, source.reservingEmail, source.feePerHour, image)
     }
 
     private fun apiReportListToReportList(sourceList: List<ApiReport>) : List<Report>{

@@ -10,6 +10,52 @@ import kotlin.math.max
 
 object ImageConverter {
 
+    fun imageProxyToBitmap(image: ImageProxy): Bitmap {
+
+        val yBuffer = image.planes[0].buffer // Y
+        val uBuffer = image.planes[1].buffer // U
+        val vBuffer = image.planes[2].buffer // V
+
+        val ySize = yBuffer.remaining()
+        val uSize = uBuffer.remaining()
+        val vSize = vBuffer.remaining()
+
+        val nv21 = ByteArray(ySize + uSize + vSize)
+
+        //U and V are swapped
+        yBuffer.get(nv21, 0, ySize)
+        vBuffer.get(nv21, ySize, vSize)
+        uBuffer.get(nv21, ySize + vSize, uSize)
+
+        val yuvImage = YuvImage(nv21, ImageFormat.NV21, image.width, image.height, null)
+
+        val out = ByteArrayOutputStream()
+        yuvImage.compressToJpeg(Rect(0, 0, yuvImage.width, yuvImage.height), 50, out)
+        val imageBytes = out.toByteArray()
+
+        return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+
+    }
+
+    /**
+     * Returns the resized image
+     *
+     * @param bitmap            The input bitmap
+     *
+     * @return Bitmap           The resized Bitmap
+     */
+    fun mirrorHorizontallyBitmap(bitmap: Bitmap): Bitmap{
+
+        val mirrorTransform = Matrix()
+        mirrorTransform.postScale(-1f, 1f, (bitmap.width / 2f), (bitmap.height / 2f))
+
+        val canvas = Canvas(bitmap)
+        canvas.drawBitmap(bitmap, mirrorTransform, null)
+
+        return bitmap
+
+    }
+
     /**
      * Returns the rotated image
      *

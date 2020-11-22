@@ -14,7 +14,7 @@
         android:id="@+id/kenBurnsView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/road" />
+        android:src="@drawable/carparking" />
 
     <ImageView
         android:id="@+id/ivLogo"
@@ -25,7 +25,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/kenBurnsView"
         app:layout_constraintStart_toStartOf="@+id/kenBurnsView"
         app:layout_constraintTop_toTopOf="@+id/kenBurnsView"
-        app:srcCompat="@drawable/icon_app" />
+        app:srcCompat="@drawable/icon_app_minimal" />
 
     <TextView
         android:layout_width="match_parent"

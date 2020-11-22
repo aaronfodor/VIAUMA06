@@ -16,8 +16,6 @@ class ApplicationRoot : Application() {
     companion object{
 
         private const val TAG = "Application Root"
-        private const val NUM_THREADS = 4
-
         const val IMMERSIVE_FLAG_TIMEOUT = 100L
 
         var requiredPermissions = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){

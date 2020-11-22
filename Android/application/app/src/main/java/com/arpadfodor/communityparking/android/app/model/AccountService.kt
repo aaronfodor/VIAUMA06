@@ -8,13 +8,9 @@ import okhttp3.OkHttpClient
 
 object AccountService {
 
-    private const val DEFAULT_USER_ID = "default_user@community_parking"
-    private const val DEFAULT_USER_NAME = "Default User"
-    private const val DEFAULT_USER_PASSWORD = "default_user_pass_671"
-
-    var userId = DEFAULT_USER_ID
-    var userDisplayName = DEFAULT_USER_NAME
-    private var userPassword = DEFAULT_USER_PASSWORD
+    var userId = ""
+    var userDisplayName = ""
+    private var userPassword = ""
 
     private var isCurrentAccountGuest = true
     var rememberAccount = false
@@ -65,9 +61,9 @@ object AccountService {
 
     fun loginAsGuest(success: () -> Unit, error: () -> Unit){
 
-        userId = DEFAULT_USER_ID
-        userDisplayName = DEFAULT_USER_NAME
-        userPassword = DEFAULT_USER_PASSWORD
+        userId = ""
+        userDisplayName = ""
+        userPassword = ""
 
         isCurrentAccountGuest = true
         success()
@@ -97,7 +93,7 @@ object AccountService {
 
     fun registerAccount(email: String, name: String, password: String, success: () -> Unit, error: () -> Unit){
 
-        login(DEFAULT_USER_ID, DEFAULT_USER_NAME, DEFAULT_USER_PASSWORD, success={
+        login(email, name, password, success={
 
             ApiService.postApiUser(email, name, password, success={
                 login(email, name, password, success, error)
@@ -136,25 +132,11 @@ object AccountService {
     }
 
     fun getDisplayUserName() : String{
-
-        return if(userDisplayName == DEFAULT_USER_NAME){
-            ""
-        }
-        else{
-            userDisplayName
-        }
-
+        return userDisplayName
     }
 
     fun getDisplayUserEmail() : String{
-
-        return if(userId == DEFAULT_USER_ID){
-            ""
-        }
-        else{
-            userId
-        }
-
+        return userId
     }
 
 }

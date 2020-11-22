@@ -1,16 +1,17 @@
 package com.arpadfodor.communityparking.android.app.viewmodel.utils
 
 import androidx.lifecycle.MutableLiveData
+import com.arpadfodor.communityparking.android.app.model.AccountService
 import com.arpadfodor.communityparking.android.app.model.LocationService
-import com.arpadfodor.communityparking.android.app.model.repository.dataclasses.UserRecognition
+import com.arpadfodor.communityparking.android.app.model.repository.dataclasses.Report
 
 abstract class MasterDetailViewModel : AppViewModel(){
 
     /**
      * List of recognition elements
      **/
-    open val recognitions: MutableLiveData<List<UserRecognition>> by lazy {
-        MutableLiveData<List<UserRecognition>>()
+    open val reports: MutableLiveData<List<Report>> by lazy {
+        MutableLiveData<List<Report>>()
     }
 
     /**
@@ -32,16 +33,16 @@ abstract class MasterDetailViewModel : AppViewModel(){
         MutableLiveData<Boolean>(false)
     }
 
-    open fun sendRecognition(id: Int, callback: (Boolean) -> Unit){}
+    open fun sendReport(id: Int, callback: (Boolean) -> Unit){}
 
-    open fun deleteRecognition(id: Int, callback: (Boolean) -> Unit){
+    open fun deleteReport(id: Int, callback: (Boolean) -> Unit){
 
         deselectRecognition()
 
-        val filteredAlerts = recognitions.value?.filter {
+        val filteredAlerts = reports.value?.filter {
             it.id != id
         }
-        recognitions.postValue(filteredAlerts)
+        reports.postValue(filteredAlerts)
 
         callback(true)
 
@@ -50,45 +51,89 @@ abstract class MasterDetailViewModel : AppViewModel(){
     fun selectRecognition(id: Int) {
         selectedRecognitionId.postValue(id)
         showDetails.postValue(true)
-        showSelection(id)
     }
 
     fun deselectRecognition() {
         selectedRecognitionId.postValue(0)
         showDetails.postValue(false)
-        showSelection(0)
     }
 
-    fun getRecognitionById(id: Int) : UserRecognition?{
-        return recognitions.value?.find { it.id == id }
+    fun getRecognitionById(id: Int) : Report?{
+        return reports.value?.find { it.id == id }
     }
 
     open fun updateRecognitionMessage(id: Int, message: String, callback: (Boolean) -> Unit){
 
-        val recognitionList = recognitions.value ?: return
+        val recognitionList = reports.value ?: return
         recognitionList.forEach {
             if(it.id == id){
                 it.message = message
             }
         }
-        recognitions.postValue(recognitionList)
+        reports.postValue(recognitionList)
         callback(true)
 
     }
 
-    private fun showSelection(id: Int){
+    open fun updateRecognitionPrice(id: Int, feePerHour: Double?, callback: (Boolean) -> Unit){
 
-        recognitions.value?.let {
-            for(recognition in it){
-                recognition.isSelected = recognition.id == id
+        val recognitionList = reports.value ?: return
+        recognitionList.forEach {
+            if(it.id == id){
+                it.feePerHour = feePerHour
             }
         }
-        recognitions.postValue(recognitions.value)
+        reports.postValue(recognitionList)
+        callback(true)
+
+    }
+
+    open fun reserveButtonClicked(id: Int, callback: (Boolean, String) -> Unit){
+
+        val recognitionList = reports.value ?: return
+        val userEmail = AccountService.userId
+
+        var buttonText = ""
+        var buttonEnabled = true
+
+        recognitionList.forEach {
+            if(it.id == id){
+
+                when {
+                    AccountService.isCurrentAccountGuest() -> {
+                        buttonText = "Guest user cannot reserve"
+                        buttonEnabled = false
+                    }
+                    it.reservingEmail == userEmail -> {
+                        buttonText = "Reserve"
+                        buttonEnabled = true
+                        it.reservingEmail = ""
+                    }
+                    it.reservingEmail.isNotEmpty() && it.reservingEmail != userEmail -> {
+                        buttonText = "Already reserved"
+                        buttonEnabled = false
+                    }
+                    it.reservingEmail.isEmpty() -> {
+                        buttonText = "Delete reservation"
+                        buttonEnabled = true
+                        it.reservingEmail = userEmail
+                    }
+                }
+
+            }
+        }
+
+        reports.postValue(recognitionList)
+        callback(buttonEnabled, buttonText)
 
     }
 
     fun getAddressFromLocation(lat: Double, long: Double, callback: (String) -> Unit){
         return LocationService.getAddressFromLocation(lat, long, callback)
+    }
+
+    fun getUserEmail() : String {
+        return AccountService.userId
     }
 
 }

@@ -4,22 +4,22 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import com.arpadfodor.communityparking.android.app.R
 import com.arpadfodor.communityparking.android.app.view.utils.MasterDetailActivity
-import com.arpadfodor.communityparking.android.app.viewmodel.AlertViewModel
+import com.arpadfodor.communityparking.android.app.viewmodel.NewReportViewModel
 
-class AlertActivity : MasterDetailActivity() {
+class NewReportActivity : MasterDetailActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        viewModel = ViewModelProvider(this).get(AlertViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(NewReportViewModel::class.java)
         super.onCreate(savedInstanceState)
 
-        listName = getString(R.string.alert_list)
-        detailName = getString(R.string.alert_details)
+        listName = getString(R.string.new_report_list)
+        detailName = getString(R.string.new_report_details)
 
-        sendSucceed = getString(R.string.alert_sent)
-        sendFailed = getString(R.string.alert_sending_failed)
+        sendSucceed = getString(R.string.new_report_sent)
+        sendFailed = getString(R.string.new_report_sending_failed)
         deleted = getString(R.string.deleted)
         deleteFailed = getString(R.string.delete_failed)
-        alreadySent = getString(R.string.alert_already_sent)
+        alreadySent = getString(R.string.new_report_already_sent)
         updateSucceed = getString(R.string.updated)
         updateFailed = getString(R.string.update_failed)
 

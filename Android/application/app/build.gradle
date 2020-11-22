@@ -9,7 +9,7 @@ android {
     buildToolsVersion '30.0.2'
 
     defaultConfig {
-        applicationId 'com.arpadfodor.stolenvehicledetector.android.app'
+        applicationId 'com.arpadfodor.communityparking.android.app'
         minSdkVersion 26
         targetSdkVersion 30
         versionCode 1
