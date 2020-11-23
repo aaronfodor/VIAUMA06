@@ -4,6 +4,5 @@ data class User(
     var email: String = "",
     val password: String = "",
     var name: String = "",
-    val hint: String = "",
-    var reservedLotId: String = ""
+    val hint: String = ""
 )

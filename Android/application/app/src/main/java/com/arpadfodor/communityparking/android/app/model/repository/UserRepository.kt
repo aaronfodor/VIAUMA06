@@ -97,11 +97,11 @@ object UserRepository {
     }
 
     private fun userToDbUser(source: User) : DbUser{
-        return DbUser(source.email, source.password, source.name, source.hint, source.reservedLotId)
+        return DbUser(source.email, source.password, source.name, source.hint)
     }
 
     private fun dbUserToUser(source: DbUser) : User{
-        return User(source.email, source.password, source.name, source.hint, source.reservedLotId)
+        return User(source.email, source.password, source.name, source.hint)
     }
 
 }

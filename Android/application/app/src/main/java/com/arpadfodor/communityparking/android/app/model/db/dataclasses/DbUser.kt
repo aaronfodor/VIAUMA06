@@ -16,7 +16,5 @@ data class DbUser(
     @ColumnInfo(name = "name")
     var name: String = "",
     @ColumnInfo(name = "hint")
-    val hint: String = "",
-    @ColumnInfo(name = "reserved_lot_id")
-    var reservedLotId: String = ""
+    val hint: String = ""
 ) : Serializable

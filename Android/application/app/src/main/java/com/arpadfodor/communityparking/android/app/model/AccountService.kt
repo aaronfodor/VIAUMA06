@@ -26,7 +26,7 @@ object AccountService {
 
         val successLogic = {
             if(rememberAccount){
-                val userToSave = User(email, password, name, "", "")
+                val userToSave = User(email, password, name, "")
                 UserRepository.saveUser(userToSave, {})
             }
             success()
