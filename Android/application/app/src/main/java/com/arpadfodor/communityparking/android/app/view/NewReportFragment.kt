@@ -271,7 +271,7 @@ class NewReportFragment : AppFragment(){
 
     override fun appearingAnimations() {
         reportDetailImage?.overshootAppearingAnimation(this.requireContext())
-        reportDetailMessage?.overshootAppearingAnimation(this.requireContext())
+        reportReserve?.overshootAppearingAnimation(this.requireContext())
         detail_send_button?.overshootAppearingAnimation(this.requireContext())
     }
     override fun subscribeListeners() {}

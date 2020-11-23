@@ -328,7 +328,7 @@ class DetailFragment : AppFragment(){
 
     override fun appearingAnimations(){
         reportDetailImage?.overshootAppearingAnimation(this.requireContext())
-        reportDetailMessage?.overshootAppearingAnimation(this.requireContext())
+        reportReserve?.overshootAppearingAnimation(this.requireContext())
         detail_send_button?.overshootAppearingAnimation(this.requireContext())
         detail_delete_button?.overshootAppearingAnimation(this.requireContext())
         detail_back_button?.overshootAppearingAnimation(this.requireContext())
