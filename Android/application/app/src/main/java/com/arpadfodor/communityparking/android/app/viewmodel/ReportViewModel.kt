@@ -27,7 +27,7 @@ class ReportViewModel : MasterDetailViewModel(){
         val report = reports.value?.find { it.id == id } ?: return
 
         val apiReport = ApiReport(report.id, report.reporterEmail, report.latitude, report.longitude,
-            report.timestampUTC, report.message, report.reservingEmail, report.feePerHour, report.image)
+            report.timestampUTC, report.message, report.reservedByEmail, report.feePerHour, report.imagePath)
 
         val success = {
             deselectRecognition()

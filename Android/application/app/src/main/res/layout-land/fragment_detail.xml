@@ -52,7 +52,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    style="@style/RecognitionImage"/>
+                    style="@style/ReportImage"/>
 
                 <com.arpadfodor.communityparking.android.app.view.utils.AppPositiveButton
                     android:id="@+id/reportReserve"

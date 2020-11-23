@@ -179,18 +179,18 @@ object ReportRepository {
 
     private fun apiReportToReport(source: ApiReport) : Report{
         return Report(source.id, source.reporterEmail, source.latitude, source.longitude,
-            source.timestampUTC, source.message, source.reservingEmail, source.feePerHour,
-            source.image)
+            source.timestampUTC, source.message, source.reservedByEmail, source.feePerHour,
+            source.imagePath)
     }
 
     private fun reportToDbReport(source: Report, imagePath: String?) : DbReport{
         return DbReport(source.id, source.reporterEmail, source.latitude, source.longitude,
-            source.timestampUTC, source.message, source.reservingEmail, source.feePerHour, imagePath)
+            source.timestampUTC, source.message, source.reservedByEmail, source.feePerHour, source.imagePath)
     }
 
     private fun dbReportToReport(source: DbReport, image: Bitmap?) : Report{
         return Report(source.Id, source.reporterEmail, source.latitude, source.longitude,
-            source.timestampUTC, source.message, source.reservingEmail, source.feePerHour, image)
+            source.timestampUTC, source.message, source.reservedByEmail, source.feePerHour, source.imagePath)
     }
 
     private fun apiReportListToReportList(sourceList: List<ApiReport>) : List<Report>{

@@ -23,9 +23,9 @@ data class DbReport(
     @ColumnInfo(name = "message")
     val message: String = "",
     @ColumnInfo(name = "reserving_email")
-    val reservingEmail: String = "",
+    val reservedByEmail: String = "",
     @ColumnInfo(name = "fee_per_hour")
     val feePerHour: Double? = null,
     @ColumnInfo(name = "image_path")
-    var imagePath: String? = null
+    var imagePath: String = ""
 ) : Serializable

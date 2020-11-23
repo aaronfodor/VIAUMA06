@@ -3,8 +3,8 @@
 <!DOCTYPE resources [
     <!ENTITY appName "Community Parking">
     <!ENTITY appId "">
-    <!ENTITY appVersion "v0.2">
-    <!ENTITY appDate "22/11/2020">
+    <!ENTITY appVersion "v0.3">
+    <!ENTITY appDate "23/11/2020">
     <!ENTITY appCreator "Arpad Fodor">
     ]>
 
@@ -18,7 +18,7 @@
     <string name="developer_page">https://github.com/arpadfodor</string>
     <string name="maintenance_contact">arpadfodor01@gmail.com</string>
     <string name="maintenance_message_title">[%1$s][bug report]</string>
-    <string name="store_page">http://play.google.com/store/apps/details?id=%1$s</string>
+    <string name="project_page">https://github.com/arpadfodor/SW-Architectures-Homework</string>
 
     <string name="permission_denied">Missing permission(s)</string>
 
@@ -29,28 +29,15 @@
     <string name="report">Report</string>
     <string name="price">Price</string>
     <string name="details">Details</string>
-    <string name="back">Back</string>
-    <string name="share">Share</string>
-    <string name="share_hint">Share using</string>
-
-    <string name="capture_mode_camera">Camera</string>
-    <string name="capture_mode_hdr">HDR</string>
-    <string name="capture_mode_night">Night</string>
 
     <string name="loaded_image_description">The loaded image</string>
-
-    <string name="ok_button">OK</string>
-    <string name="send_button">Send</string>
-    <string name="cancel_button">Cancel</string>
-    <string name="delete_button">Delete</string>
-    <string name="hide_button">Hide</string>
-
-    <string name="add_report">Add report</string>
     <string name="load_an_image">Load an image</string>
 
-    <string name="delete_title">Confirm delete</string>
-    <string name="delete_dialog">Are you sure you want to delete current photo?</string>
-    <string name="delete">Delete</string>
+    <string name="app_dialog_image">app dialog image</string>
+
+    <string name="ok_button">OK</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="hide_button">Hide</string>
 
     <string name="exit_title">Confirm exit</string>
     <string name="exit_dialog">Are you sure you want to exit?</string>
@@ -66,12 +53,15 @@
     <string name="menu_how_to_use">How to use</string>
     <string name="menu_about">About</string>
 
+    <string name="add_report">Add report</string>
     <string name="report_list">Reports</string>
     <string name="report_details">Report details</string>
     <string name="new_report_list">New report</string>
     <string name="new_report_details">New report details</string>
-    <string name="pending_report_list">Pending reports</string>
-    <string name="pending_report_details">Pending report details</string>
+    <string name="report_add_message_hint">Add your notes…</string>
+    <string name="report_add_price_hint">Add price…</string>
+    <string name="report_image">Report image</string>
+    <string name="edit_report">Edit report</string>
 
     <string name="updated">Updated</string>
     <string name="update_failed">Update failed</string>
@@ -80,7 +70,6 @@
 
     <string name="general_settings">General settings</string>
     <string name="sync_settings">Sync settings</string>
-    <string name="account_settings">Account settings</string>
     <string name="setting_keep_screen_alive">Keep screen alive</string>
     <string name="enabled">Enabled</string>
     <string name="disabled">Disabled</string>
@@ -88,28 +77,14 @@
     <string name="force_update_db_summary">Internet connection is required to update the database.</string>
     <string name="setting_auto_sync">Enable Auto Sync</string>
     <string name="last_synced_db_reports">Reports synced</string>
-    <string name="delete_pending_reports">Delete pending reports</string>
-    <string name="delete_pending_reports_summary">Delete from your device (reports already sent will not be affected).</string>
-
-    <string name="app_dialog_image">app dialog image</string>
-
-    <string name="report_add_message_hint">Add your notes…</string>
-    <string name="report_add_price_hint">Add price…</string>
-    <string name="report_image">Report image</string>
-    <string name="send_report">Send report</string>
-    <string name="delete_report">Delete report</string>
-    <string name="edit_report">Edit report</string>
-    <string name="back_report">Back</string>
 
     <string name="report_item_timestamp">Time (UTC): %1$s</string>
     <string name="report_item_location">lat=%1$.5f, long=%2$.5f</string>
     <string name="report_item_location_long">lat=%1$s, long=%2$s</string>
     <string name="report_item_address">%1$s</string>
-    <string name="report_item_message">Message: %1$s</string>
     <string name="report_item_price">HUF/hour</string>
     <string name="report_item_price_unknown">Unknown fee</string>
     <string name="report_item_price_long">%1$s HUF/hour</string>
-    <string name="report_is_reserved">Is reserved</string>
     <string name="message_edit_text_title">Message</string>
     <string name="date_title">Time (UTC)</string>
     <string name="location_title">Location</string>
@@ -121,18 +96,12 @@
     <string name="image_save_failed">Image saving failed</string>
     <string name="image_load_failed">Image loading failed</string>
 
-    <string name="report_sent">Report sent</string>
-    <string name="report_sending_failed">Sending failed</string>
-    <string name="report_already_sent">Already sent</string>
-
     <string name="new_report_sent">Added to my reports</string>
     <string name="new_report_sending_failed">Addition failed</string>
-    <string name="new_report_already_sent">Already added</string>
 
     <string name="more_from_developer">More from the developer</string>
     <string name="review_app">Review app</string>
     <string name="report_bug">Report a problem</string>
-
     <string name="how_to_use_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam turpis mi, mollis a interdum ut, sollicitudin nec purus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris eget sapien dolor. Nam tristique nulla odio, posuere sollicitudin velit facilisis tristique. Cras vitae erat justo. Donec vitae blandit tortor. Vestibulum scelerisque accumsan est in fringilla. Quisque id facilisis ex. Nam elementum urna elementum nulla tincidunt gravida. Ut dignissim lacus ac lacus laoreet, quis tempus nunc luctus. Ut eu sem ut nulla pharetra volutpat. Sed tempor velit ac purus bibendum, ac bibendum risus scelerisque. Sed egestas sit amet ante et facilisis. Duis nec massa odio.\nMauris eleifend orci quis leo ullamcorper tristique. Nulla varius non nulla ut placerat. Suspendisse viverra, tellus eget congue malesuada, dolor est molestie est, eget tincidunt tellus enim suscipit arcu. Praesent rhoncus ultricies ornare. Donec congue congue orci at semper. Pellentesque laoreet diam sit amet sem ullamcorper fringilla. Suspendisse vitae quam id odio condimentum porttitor id ut nisl. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nam aliquam, odio quis vehicula luctus, erat ligula ultrices dolor, nec tempus tortor est id est. Integer pellentesque iaculis lorem eget auctor. Donec fermentum varius ex, sed rutrum quam. Pellentesque nec mauris leo. In hac habitasse platea dictumst.</string>
     <string name="listen">Listen</string>
     <string name="text_to_speech_error">Text-to-speech error occurred</string>
@@ -157,13 +126,11 @@
     <string name="new_password_failed">Generating password for %1$s failed</string>
     <string name="login_failed">Login failed</string>
     <string name="create_account_failed">Creating account failed</string>
-    <string name="logged_out">Logged out</string>
     <string name="logout_failed">Logout failed</string>
     <string name="change_applied">Change applied</string>
     <string name="change_failed">Change failed</string>
     <string name="empty_change">Nothing to change</string>
     <string name="empty_email">Empty email address</string>
-    <string name="account_deleted">Account deleted</string>
     <string name="account_delete_failed">Account delete failed</string>
     <string name="enter_your_name">Please enter your name</string>
     <string name="enter_your_email">Please enter your email</string>
@@ -177,6 +144,6 @@
     <string name="map_change">Change map type</string>
     <string name="map_update">Update map</string>
     <string name="marker_title">%1$s HUF/hour</string>
-    <string name="marker_snippet">lat=%1$.5f, long=%2$.5f\nDetected at: %3$s\nReporter: %4$s\nMessage: %5$s</string>
+    <string name="marker_snippet">lat=%1$.5f, long=%2$.5f\nDetected at: %3$s\nReserved by: %4$s\nMessage: %5$s</string>
 
 </resources>

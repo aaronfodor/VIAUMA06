@@ -9,4 +9,6 @@
     <string name="SETTINGS_SYNC_NOW">sync_now</string>
     <string name="LAST_SYNCED_DB_REPORTS">last_synced_db_coordinates</string>
 
+    <string name="INTENT_EXTRA_SELECTED_ID_KEY">selected id</string>
+
 </resources>

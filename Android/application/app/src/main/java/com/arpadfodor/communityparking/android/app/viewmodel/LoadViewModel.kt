@@ -37,11 +37,8 @@ class LoadViewModel : AppViewModel(){
         MutableLiveData<Array<String>>()
     }
 
-    /**
-     * List of recognitions from the last inference
-     **/
-    val recognitions: MutableLiveData<Array<Report>> by lazy {
-        MutableLiveData<Array<Report>>()
+    val recognition: MutableLiveData<Report> by lazy {
+        MutableLiveData<Report>()
     }
 
     fun loadImage(selectedImageUri: Uri, callback: (Boolean) -> Unit){
@@ -62,7 +59,7 @@ class LoadViewModel : AppViewModel(){
                 val rotatedBitmap = ImageConverter.rotateBitmap(it, imageOrientation)
                 loadedImage.postValue(rotatedBitmap)
 
-                prepareRecognitions(rotatedBitmap, imageMetaInfo)
+                prepareRecognition(imageMetaInfo)
 
             }
 
@@ -79,18 +76,17 @@ class LoadViewModel : AppViewModel(){
             val rotatedBitmap = ImageConverter.rotateBitmap(sourceBitmap, 90)
             loadedImage.postValue(rotatedBitmap)
 
-            prepareRecognitions(rotatedBitmap, imageMetaData.value ?: arrayOf("", "", ""))
+            prepareRecognition(imageMetaData.value ?: arrayOf("", "", ""))
 
         }.start()
 
     }
 
-    private fun prepareRecognitions(rotatedBitmap: Bitmap, imageMeta: Array<String>){
+    private fun prepareRecognition(imageMeta: Array<String>){
 
-        val recognitions = arrayListOf<Report>()
         val user = AccountService.userId
 
-        recognitions.add(
+        val recognition =
             Report(
                 id = 1,
                 reporterEmail = user,
@@ -98,12 +94,11 @@ class LoadViewModel : AppViewModel(){
                 longitude = imageMeta[2].toDouble(),
                 timestampUTC = imageMeta[0],
                 message = "",
-                reservingEmail = "",
+                reservedByEmail = "",
                 feePerHour = null,
-                image = rotatedBitmap)
-        )
+                imagePath = "")
 
-        this.recognitions.postValue(recognitions.toTypedArray())
+        this.recognition.postValue(recognition)
 
     }
 
@@ -112,7 +107,11 @@ class LoadViewModel : AppViewModel(){
     }
 
     fun setAlertActivityParams(){
-        NewReportViewModel.setParameter(recognitions.value?.toList() ?: listOf())
+        recognition.value?.let {report ->
+            loadedImage.value?.let {image ->
+                NewReportViewModel.setParameter(report, image)
+            }
+        }
     }
 
 }

@@ -1,4 +1,4 @@
-package com.arpadfodor.communityparking.android.app.view.utils
+package com.arpadfodor.communityparking.android.app.view
 
 import android.os.Bundle
 import android.text.InputType
@@ -9,9 +9,9 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.Observer
 import com.arpadfodor.communityparking.android.app.R
+import com.arpadfodor.communityparking.android.app.view.utils.*
 import com.arpadfodor.communityparking.android.app.viewmodel.utils.MasterDetailViewModel
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_detail.*
 
@@ -43,16 +43,16 @@ class DetailFragment : AppFragment(){
             updateSucceedSnackBarText: String,
             updateFailedSnackBarText: String
         ){
-            this.viewModel = viewModel
-            this.title = title
+            Companion.viewModel = viewModel
+            Companion.title = title
 
-            this.sendSucceedSnackBarText = sendSucceedSnackBarText
-            this.sendFailedSnackBarText = sendFailedSnackBarText
-            this.alreadySentSnackBarText = alreadySentSnackBarText
-            this.deletedSnackBarText = deletedSnackBarText
-            this.deleteFailedSnackBarText = deleteFailedSnackBarText
-            this.updateSucceedSnackBarText = updateSucceedSnackBarText
-            this.updateFailedSnackBarText = updateFailedSnackBarText
+            Companion.sendSucceedSnackBarText = sendSucceedSnackBarText
+            Companion.sendFailedSnackBarText = sendFailedSnackBarText
+            Companion.alreadySentSnackBarText = alreadySentSnackBarText
+            Companion.deletedSnackBarText = deletedSnackBarText
+            Companion.deleteFailedSnackBarText = deleteFailedSnackBarText
+            Companion.updateSucceedSnackBarText = updateSucceedSnackBarText
+            Companion.updateFailedSnackBarText = updateFailedSnackBarText
         }
 
     }
@@ -81,21 +81,14 @@ class DetailFragment : AppFragment(){
 
                 fragment_detail_parent_layout?.visibility = View.VISIBLE
 
-                val image = report.image
-                image?.let { bitmap ->
-
-                    reportDetailImage?.let {
-                        it.disappearingAnimation(requireContext())
-                        Glide
-                            .with(this)
-                            .load(bitmap)
-                            .transform(RoundedCorners(requireContext()
-                                .resources.getDimension(R.dimen.image_corner_radius).toInt()))
-                            .error(R.drawable.icon_image)
-                            .into(it)
-                        it.appearingAnimation(requireContext())
-                    }
-
+                reportDetailImage?.let {
+                    it.disappearingAnimation(requireContext())
+                    Glide
+                        .with(this)
+                        .load(report.imagePath)
+                        .error(R.drawable.icon_image)
+                        .into(it)
+                    it.appearingAnimation(requireContext())
                 }
 
                 detail_send_button?.setImageResource(R.drawable.icon_send)
@@ -127,15 +120,15 @@ class DetailFragment : AppFragment(){
                         reportReserve?.text = "Guest user cannot reserve"
                         reportReserve?.isEnabled = false
                     }
-                    report.reservingEmail.isEmpty() -> {
+                    report.reservedByEmail.isEmpty() -> {
                         reportReserve?.text = "Reserve"
                         reportReserve?.isEnabled = true
                     }
-                    report.reservingEmail != viewModel.getUserEmail() -> {
+                    report.reservedByEmail != viewModel.getUserEmail() -> {
                         reportReserve?.text = "Already reserved"
                         reportReserve?.isEnabled = false
                     }
-                    report.reservingEmail == viewModel.getUserEmail() -> {
+                    report.reservedByEmail == viewModel.getUserEmail() -> {
                         reportReserve?.text = "Delete reservation"
                         reportReserve?.isEnabled = true
                     }
@@ -329,11 +322,13 @@ class DetailFragment : AppFragment(){
         }
 
         // Observe the LiveData, passing in this viewLifeCycleOwner as the LifecycleOwner and the observer
-        viewModel.selectedRecognitionId.observe(requireActivity(), selectedRecognitionObserver)
+        viewModel.selectedReportId.observe(requireActivity(), selectedRecognitionObserver)
 
     }
 
     override fun appearingAnimations(){
+        reportDetailImage?.overshootAppearingAnimation(this.requireContext())
+        reportDetailMessage?.overshootAppearingAnimation(this.requireContext())
         detail_send_button?.overshootAppearingAnimation(this.requireContext())
         detail_delete_button?.overshootAppearingAnimation(this.requireContext())
         detail_back_button?.overshootAppearingAnimation(this.requireContext())

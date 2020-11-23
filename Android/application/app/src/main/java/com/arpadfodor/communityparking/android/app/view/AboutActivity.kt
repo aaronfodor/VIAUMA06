@@ -32,7 +32,7 @@ class AboutActivity : AppActivity() {
         }
 
         fabReview.setOnClickListener {
-            val storePageUri = Uri.parse(getString(R.string.store_page, packageName))
+            val storePageUri = Uri.parse(getString(R.string.project_page))
             val storeIntent = Intent(Intent.ACTION_VIEW, storePageUri)
             startActivity(storeIntent)
         }

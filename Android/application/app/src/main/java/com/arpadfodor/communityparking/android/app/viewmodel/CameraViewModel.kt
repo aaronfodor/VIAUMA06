@@ -51,17 +51,14 @@ class CameraViewModel : AppViewModel(){
         /**
          * The current image
          **/
-        var currentImage: Bitmap? = null
+        lateinit var currentImage: Bitmap
 
     }
 
     var lensFacing: Int = CameraSelector.LENS_FACING_BACK
 
-    /**
-     * List of reports
-     **/
-    val recognitions: MutableLiveData<Array<Report>> by lazy {
-        MutableLiveData<Array<Report>>()
+    val recognition: MutableLiveData<Report> by lazy {
+        MutableLiveData<Report>()
     }
 
     /**
@@ -97,14 +94,13 @@ class CameraViewModel : AppViewModel(){
         return MediaHandler.getImagePublicDirOutputStream()
     }
 
-    private fun prepareRecognitions() : List<Report> {
+    private fun prepareRecognitions() : Report {
 
         val imageMeta = MetaProvider.getDeviceMetaData()
 
-        val recognitions = arrayListOf<Report>()
         val user = AccountService.userId
 
-        recognitions.add(
+        val recognition =
             Report(
                 id = 1,
                 reporterEmail = user,
@@ -112,19 +108,18 @@ class CameraViewModel : AppViewModel(){
                 longitude = imageMeta[2].toDouble(),
                 timestampUTC = imageMeta[0],
                 message = "",
-                reservingEmail = "",
+                reservedByEmail = "",
                 feePerHour = null,
-                image = currentImage)
-        )
+                imagePath = "")
 
-        this.recognitions.postValue(recognitions.toTypedArray())
-        return recognitions
+        this.recognition.postValue(recognition)
+        return recognition
 
     }
 
     fun setAlertActivityParams(){
-        val items = prepareRecognitions()
-        NewReportViewModel.setParameter(items)
+        val item = prepareRecognitions()
+        NewReportViewModel.setParameter(item, currentImage)
     }
 
 }

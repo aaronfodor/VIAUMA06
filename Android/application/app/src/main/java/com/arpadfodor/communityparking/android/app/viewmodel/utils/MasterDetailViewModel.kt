@@ -22,7 +22,7 @@ abstract class MasterDetailViewModel : AppViewModel(){
     /**
      * The current, selected recognition
      **/
-    val selectedRecognitionId: MutableLiveData<Int> by lazy {
+    val selectedReportId: MutableLiveData<Int> by lazy {
         MutableLiveData<Int>(0)
     }
 
@@ -49,12 +49,12 @@ abstract class MasterDetailViewModel : AppViewModel(){
     }
 
     fun selectRecognition(id: Int) {
-        selectedRecognitionId.postValue(id)
+        selectedReportId.postValue(id)
         showDetails.postValue(true)
     }
 
     fun deselectRecognition() {
-        selectedRecognitionId.postValue(0)
+        selectedReportId.postValue(0)
         showDetails.postValue(false)
     }
 
@@ -104,19 +104,19 @@ abstract class MasterDetailViewModel : AppViewModel(){
                         buttonText = "Guest user cannot reserve"
                         buttonEnabled = false
                     }
-                    it.reservingEmail == userEmail -> {
+                    it.reservedByEmail == userEmail -> {
                         buttonText = "Reserve"
                         buttonEnabled = true
-                        it.reservingEmail = ""
+                        it.reservedByEmail = ""
                     }
-                    it.reservingEmail.isNotEmpty() && it.reservingEmail != userEmail -> {
+                    it.reservedByEmail.isNotEmpty() && it.reservedByEmail != userEmail -> {
                         buttonText = "Already reserved"
                         buttonEnabled = false
                     }
-                    it.reservingEmail.isEmpty() -> {
+                    it.reservedByEmail.isEmpty() -> {
                         buttonText = "Delete reservation"
                         buttonEnabled = true
-                        it.reservingEmail = userEmail
+                        it.reservedByEmail = userEmail
                     }
                 }
 

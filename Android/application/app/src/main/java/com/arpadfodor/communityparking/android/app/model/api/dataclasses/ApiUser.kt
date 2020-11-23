@@ -7,6 +7,5 @@ data class ApiUser(
     val hint: String,
     val isActive: Boolean,
     val permissions:  List<Int>,
-    val validFromUTC: String = "",
-    val reservedLotId: String?
+    val validFromUTC: String = ""
 )

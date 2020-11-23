@@ -1,6 +1,7 @@
 package com.arpadfodor.communityparking.android.app.view
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.os.Bundle
@@ -27,7 +28,6 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.content_map.*
-import kotlinx.android.synthetic.main.infowindow_map.*
 import java.util.*
 
 class MapActivity : AppActivity(), OnMapReadyCallback {
@@ -111,6 +111,10 @@ class MapActivity : AppActivity(), OnMapReadyCallback {
 
             })
 
+            it.setOnInfoWindowClickListener {
+                showReport(it.tag.toString().toInt())
+            }
+
         }
 
     }
@@ -150,7 +154,7 @@ class MapActivity : AppActivity(), OnMapReadyCallback {
    override fun appearingAnimations() {
         fabMapUpdate?.overshootAppearingAnimation(this)
         fabMapChange?.overshootAppearingAnimation(this)
-    }
+   }
 
     override fun subscribeToViewModel() {
 
@@ -169,24 +173,33 @@ class MapActivity : AppActivity(), OnMapReadyCallback {
 
                 for(report in reports){
 
+                    var feePerHourText = "Unknown"
+                    if (report.feePerHour != null) {
+                        feePerHourText = report.feePerHour.toString()
+                    }
+
+                    val bitmapDescriptor = if(report.reservedByEmail.isNotEmpty()){
+                        markerDescReserved
+                    }
+                    else{
+                        markerDescFree
+                    }
+
                     val currentMarker = it.addMarker(
                         MarkerOptions()
                             .position(LatLng(report.latitude, report.longitude))
-                            .title(getString(R.string.marker_title, report.feePerHour.toString()))
+                            .title(getString(R.string.marker_title, feePerHourText))
                             .snippet(
                                 getString(
                                     R.string.marker_snippet, report.latitude, report.longitude,
-                                    report.timestampUTC, report.reporterEmail, report.message
+                                    report.timestampUTC, report.reservedByEmail, report.message
                                 )
                             )
                     )
 
-                    if(report.reservingEmail.isNotEmpty()){
-                        currentMarker.setIcon(markerDescReserved)
-                    }
-                    else{
-                        currentMarker.setIcon(markerDescFree)
-                    }
+                    //set tag to report id to identify which report is clicked
+                    currentMarker.tag = report.id
+                    currentMarker.setIcon(bitmapDescriptor)
 
                     viewModel.markers.add(currentMarker)
 
@@ -217,10 +230,7 @@ class MapActivity : AppActivity(), OnMapReadyCallback {
 
                     val preferences = PreferenceManager.getDefaultSharedPreferences(this)
                     val currentTime = Calendar.getInstance().time.toString()
-                    preferences.edit().putString(
-                        getString(R.string.LAST_SYNCED_DB_REPORTS),
-                        currentTime
-                    )
+                    preferences.edit().putString(getString(R.string.LAST_SYNCED_DB_REPORTS), currentTime)
                         .apply()
 
                     showSuccessSnackBar(getString(R.string.updated))
@@ -270,6 +280,12 @@ class MapActivity : AppActivity(), OnMapReadyCallback {
 
         }
 
+    }
+
+    private fun showReport(id: Int){
+        val intent = Intent(this, ReportActivity::class.java)
+        intent.putExtra(getString(R.string.INTENT_EXTRA_SELECTED_ID_KEY), id)
+        startActivity(intent)
     }
 
 }

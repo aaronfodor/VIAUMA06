@@ -28,7 +28,7 @@ fun TextView.setReportLocation(item: Report) {
 @BindingAdapter("ReportReservation")
 fun TextView.setReportReservation(item: Report) {
 
-    val reservedText = if(item.reservingEmail.isNotEmpty()){
+    val reservedText = if(item.reservedByEmail.isNotEmpty()){
         context.getString(R.string.report_item_reserved)
     }
     else{

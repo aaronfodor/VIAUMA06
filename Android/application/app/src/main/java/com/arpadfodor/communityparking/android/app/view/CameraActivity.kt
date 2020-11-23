@@ -11,7 +11,6 @@ import android.widget.FrameLayout
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import androidx.preference.PreferenceManager
 import com.arpadfodor.communityparking.android.app.ApplicationRoot
 import com.arpadfodor.communityparking.android.app.R
 import com.arpadfodor.communityparking.android.app.view.utils.AppActivity

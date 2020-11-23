@@ -5,6 +5,7 @@ import com.arpadfodor.communityparking.android.app.model.AccountService
 import com.arpadfodor.communityparking.android.app.model.LocationService
 import com.arpadfodor.communityparking.android.app.model.repository.ReportRepository
 import com.arpadfodor.communityparking.android.app.model.repository.dataclasses.Report
+import com.arpadfodor.communityparking.android.app.view.DetailFragment
 import com.arpadfodor.communityparking.android.app.viewmodel.utils.AppViewModel
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
@@ -46,10 +47,6 @@ class MapViewModel : AppViewModel(){
 
         return LatLng(location[0], location[1])
 
-    }
-
-    fun getCurrentUserId() : String{
-        return AccountService.userId
     }
 
     fun updateReports(callback: (Boolean) -> Unit){
@@ -102,19 +99,21 @@ class MapViewModel : AppViewModel(){
             if(it.id == id){
 
                 when {
-                    it.reservingEmail == userEmail -> {
-                        buttonText = "Delete reservation"
-                        buttonEnabled = true
-                        it.reservingEmail = ""
+                    DetailFragment.viewModel.getUserEmail() == "" -> {
+                        buttonText = "Guest user cannot reserve"
+                        buttonEnabled = false
                     }
-                    it.reservingEmail.isNotEmpty() && it.reservingEmail != userEmail -> {
+                    it.reservedByEmail.isEmpty() -> {
+                        buttonText = "Reserve"
+                        buttonEnabled = true
+                    }
+                    it.reservedByEmail != DetailFragment.viewModel.getUserEmail() -> {
                         buttonText = "Already reserved"
                         buttonEnabled = false
                     }
-                    it.reservingEmail.isEmpty() -> {
-                        buttonText = "Reserve"
+                    it.reservedByEmail == DetailFragment.viewModel.getUserEmail() -> {
+                        buttonText = "Delete reservation"
                         buttonEnabled = true
-                        it.reservingEmail = userEmail
                     }
                 }
 

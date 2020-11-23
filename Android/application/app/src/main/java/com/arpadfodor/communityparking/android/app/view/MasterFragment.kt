@@ -1,4 +1,4 @@
-package com.arpadfodor.communityparking.android.app.view.utils
+package com.arpadfodor.communityparking.android.app.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +9,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.arpadfodor.communityparking.android.app.R
 import com.arpadfodor.communityparking.android.app.viewmodel.utils.MasterDetailViewModel
 import com.arpadfodor.communityparking.android.app.model.repository.dataclasses.Report
+import com.arpadfodor.communityparking.android.app.view.utils.AppFragment
+import com.arpadfodor.communityparking.android.app.view.utils.AppSnackBarBuilder
+import com.arpadfodor.communityparking.android.app.view.utils.ReportEventListener
+import com.arpadfodor.communityparking.android.app.view.utils.ReportListAdapter
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_master.*
 
@@ -31,14 +35,14 @@ class MasterFragment : AppFragment(){
                       sendSucceedSnackBarText: String, sendFailedSnackBarText: String, alreadySentSnackBarText: String,
                       deletedSnackBarText: String, deleteFailedSnackBarText: String){
 
-            this.viewModel = viewModel
-            this.title = title
+            Companion.viewModel = viewModel
+            Companion.title = title
 
-            this.sendSucceedSnackBarText = sendSucceedSnackBarText
-            this.sendFailedSnackBarText = sendFailedSnackBarText
-            this.alreadySentSnackBarText = alreadySentSnackBarText
-            this.deletedSnackBarText = deletedSnackBarText
-            this.deleteFailedSnackBarText = deleteFailedSnackBarText
+            Companion.sendSucceedSnackBarText = sendSucceedSnackBarText
+            Companion.sendFailedSnackBarText = sendFailedSnackBarText
+            Companion.alreadySentSnackBarText = alreadySentSnackBarText
+            Companion.deletedSnackBarText = deletedSnackBarText
+            Companion.deleteFailedSnackBarText = deleteFailedSnackBarText
 
         }
 

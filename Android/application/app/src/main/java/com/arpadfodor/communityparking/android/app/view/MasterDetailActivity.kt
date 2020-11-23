@@ -1,4 +1,4 @@
-package com.arpadfodor.communityparking.android.app.view.utils
+package com.arpadfodor.communityparking.android.app.view
 
 import android.os.Bundle
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -6,6 +6,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import com.arpadfodor.communityparking.android.app.R
+import com.arpadfodor.communityparking.android.app.view.utils.AppActivity
 import com.arpadfodor.communityparking.android.app.viewmodel.utils.MasterDetailViewModel
 import com.google.android.material.navigation.NavigationView
 
@@ -53,10 +54,14 @@ abstract class MasterDetailActivity() : AppActivity() {
 
         super.onResume()
         // Prepare those fragments to listen to the appropriate ViewModel
-        MasterFragment.setParams(viewModel, listName,
-            sendSucceed, sendFailed, alreadySent, deleted, deleteFailed)
-        DetailFragment.setParams(viewModel, detailName,
-            sendSucceed, sendFailed, alreadySent, deleted, deleteFailed, updateSucceed, updateFailed)
+        MasterFragment.setParams(
+            viewModel, listName,
+            sendSucceed, sendFailed, alreadySent, deleted, deleteFailed
+        )
+        DetailFragment.setParams(
+            viewModel, detailName,
+            sendSucceed, sendFailed, alreadySent, deleted, deleteFailed, updateSucceed, updateFailed
+        )
 
     }
 

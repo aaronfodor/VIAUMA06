@@ -4,8 +4,6 @@ import com.arpadfodor.communityparking.android.app.model.api.dataclasses.ApiMeta
 import com.arpadfodor.communityparking.android.app.model.api.dataclasses.ApiReport
 import com.arpadfodor.communityparking.android.app.model.api.dataclasses.ApiUser
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -29,11 +27,8 @@ interface CommunityParkingAPI {
         const val PUT_SELF = "${API_URL}user/self"
         const val DELETE_SELF = "${API_URL}user/self"
 
-        const val ENDPOINT_URL = "https://aut-android-gallery.herokuapp.com/api/"
-        const val IMAGE_PREFIX_URL = "https://aut-android-gallery.herokuapp.com/"
-
         const val MULTIPART_FORM_DATA = "multipart/form-data"
-        const val PHOTO_MULTIPART_KEY_IMG = "image"
+        const val MULTIPART_IMAGE_KEY = "image"
 
     }
 
@@ -43,8 +38,9 @@ interface CommunityParkingAPI {
     @GET(GET_REPORTS_META)
     fun getReportsMeta(): Call<ApiMetaData>
 
+    @Multipart
     @POST(POST_REPORT)
-    fun postReport(@Body report: ApiReport): Call<Void>
+    fun postReport(@Part image: MultipartBody.Part, @Body report: ApiReport): Call<Void>
 
     @PUT(PUT_REPORT)
     fun putReport(@Body report: ApiReport): Call<Void>
@@ -63,11 +59,5 @@ interface CommunityParkingAPI {
 
     @DELETE(DELETE_SELF)
     fun deleteSelf(): Call<Void>
-
-    @Multipart
-    @POST("upload")
-    fun uploadImage(@Part file: MultipartBody.Part,
-                    @Part("name") name: RequestBody,
-                    @Part("description") description: RequestBody): Call<ResponseBody>
 
 }
