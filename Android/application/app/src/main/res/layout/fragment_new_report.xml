@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/fragment_detail_parent_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/report_detail_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/TitleText"
+        android:text="@string/report_details" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        style="@style/CardContainer">
+
+        <ScrollView
+            android:id="@+id/report_details_scrollview"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/detail_send_button"
+            android:layout_margin="@dimen/paragraph_margin"
+            android:gravity="top">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/report_details_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/paragraph_padding">
+
+                <ImageView
+                    android:id="@+id/reportDetailImage"
+                    app:srcCompat="@drawable/icon_image"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    style="@style/ReportImage"/>
+
+                <com.arpadfodor.communityparking.android.app.view.utils.AppPositiveButton
+                    android:id="@+id/reportReserve"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/reportDetailImage"
+                    style="@style/ParagraphBody"/>
+
+                <TextView
+                    android:id="@+id/reportDetailPriceTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/reportReserve"
+                    style="@style/ParagraphBodyTop"
+                    android:text="@string/report_item_price"/>
+
+                <EditText
+                    android:id="@+id/reportDetailPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/edit_text_padding"
+                    android:gravity="start"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/reportDetailPriceTitle"
+                    android:hint="@string/report_add_price_hint"
+                    android:autofillHints="@string/report_add_price_hint"
+                    android:inputType="number"
+                    android:imeOptions="actionDone"
+                    android:background="@drawable/app_edit_background"
+                    android:lines="1"
+                    style="@style/InputFieldText"/>
+
+                <TextView
+                    android:id="@+id/reportDetailMessageTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/reportDetailPrice"
+                    style="@style/ParagraphBodyTop"
+                    android:text="@string/message_edit_text_title"/>
+
+                <EditText
+                    android:id="@+id/reportDetailMessage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/edit_text_padding"
+                    android:gravity="start"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/reportDetailMessageTitle"
+                    android:hint="@string/report_add_message_hint"
+                    android:autofillHints="@string/report_add_message_hint"
+                    android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
+                    android:imeOptions="actionDone"
+                    android:background="@drawable/app_edit_background"
+                    android:lines="4"
+                    style="@style/InputFieldText"/>
+
+                <TextView
+                    android:id="@+id/reportDetailDateLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/reportDetailMessage"
+                    style="@style/ParagraphBodyTop"
+                    android:text="@string/date_title"/>
+
+                <TextView
+                    android:id="@+id/reportDetailDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/reportDetailDateLabel"
+                    style="@style/SubtitleBottom" />
+
+                <TextView
+                    android:id="@+id/reportDetailLocationLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/reportDetailDate"
+                    style="@style/ParagraphBodyTop"
+                    android:text="@string/location_title"/>
+
+                <TextView
+                    android:id="@+id/reportDetailLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/reportDetailLocationLabel"
+                    style="@style/SubtitleBottom" />
+
+                <TextView
+                    android:id="@+id/reportDetailAddressLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/reportDetailLocation"
+                    style="@style/ParagraphBodyTop"
+                    android:text="@string/address_title"/>
+
+                <TextView
+                    android:id="@+id/reportDetailAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/reportDetailAddressLabel"
+                    style="@style/SubtitleBottom" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/detail_send_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/button_margin_horizontal"
+            android:backgroundTint="@color/colorButtonPositive"
+            app:srcCompat="@drawable/icon_add_report"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
