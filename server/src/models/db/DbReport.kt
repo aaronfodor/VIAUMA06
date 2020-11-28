@@ -23,6 +23,7 @@ object Reports : IntIdTable() {
 class ReportEntity(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<ReportEntity>(Reports)
 
+    var _id by Reports.id
     var reporterEmail by Reports.reporterEmail
     var latitude by Reports.latitude
     var longitude by Reports.longitude
@@ -32,10 +33,11 @@ class ReportEntity(id: EntityID<Int>) : IntEntity(id) {
     var feePerHour by Reports.feePerHour
     var imagePath by Reports.imagePath
 
-    fun toReport() = Report(reporterEmail, latitude, longitude, timestampUTC, message, reservedByEmail, feePerHour, imagePath)
+    fun toReport() = Report(_id.value, reporterEmail, latitude, longitude, timestampUTC, message, reservedByEmail, feePerHour, imagePath)
 }
 
 data class Report(
+    val id: Int,
     val reporterEmail: String,
     val latitude: Double,
     val longitude: Double,
