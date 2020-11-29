@@ -1,5 +1,6 @@
 package hu.gyeben.communityparking.server.models.db
 
+import hu.gyeben.communityparking.server.model.api.ApiReport
 import hu.gyeben.communityparking.server.models.api.ApiUser
 import org.jetbrains.exposed.dao.Entity
 import org.jetbrains.exposed.dao.EntityClass
@@ -44,6 +45,10 @@ data class Report(
     val timestampUTC: String,
     val message: String,
     val reservedByEmail: String,
-    val feePerHour: Double,
+    val feePerHour: Double?,
     val imagePath: String
 )
+
+fun ApiReport.toDbReport(): Report {
+    return Report(id, reporterEmail, latitude, longitude, timestampUTC, message, reservedByEmail, feePerHour, imagePath)
+}

@@ -2,6 +2,7 @@ package hu.gyeben.communityparking.server
 
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
+import hu.gyeben.communityparking.server.models.db.Reports
 import hu.gyeben.communityparking.server.models.db.Users
 import io.ktor.application.*
 import io.ktor.util.*
@@ -20,7 +21,6 @@ fun Application.initDatabase() {
 }
 
 private fun createTables() = transaction {
-    SchemaUtils.create(
-        Users
-    )
+    SchemaUtils.create(Users)
+    SchemaUtils.create(Reports)
 }

@@ -2,6 +2,7 @@ package hu.gyeben.communityparking.server.services
 
 import hu.gyeben.communityparking.server.models.db.User
 import hu.gyeben.communityparking.server.models.db.UserEntity
+import hu.gyeben.communityparking.server.models.db.Users
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class UserService {
@@ -16,11 +17,18 @@ class UserService {
     }
 
     fun getUser(email: String): User? = transaction {
-        UserEntity.findById(email)?.toUser()
+        val users = UserEntity.find { Users.email eq email }
+
+        if (users.empty())
+            null
+        else
+            users.first().toUser()
     }
 
     fun updateUser(user: User) = transaction {
-        val userEntity = UserEntity.findById(user.email)
+        val users = UserEntity.find { Users.email eq user.email }
+        val userEntity = if (users.empty()) null else users.first()
+
         userEntity?.let {
             userEntity.email = user.email
             userEntity.password = user.password

@@ -6,13 +6,17 @@ import hu.gyeben.communityparking.server.services.UserService
 import hu.gyeben.communityparking.server.services.bindServices
 import io.ktor.application.*
 import io.ktor.auth.*
+import io.ktor.features.*
+import io.ktor.gson.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.http.*
 import io.ktor.util.*
+import org.jetbrains.exposed.dao.exceptions.EntityNotFoundException
 import org.kodein.di.instance
 import org.kodein.di.ktor.di
 import org.mindrot.jbcrypt.BCrypt
+import java.lang.IllegalStateException
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
@@ -21,6 +25,17 @@ fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 @kotlin.jvm.JvmOverloads
 fun Application.module(testing: Boolean = false) {
     initDatabase()
+
+    install(ContentNegotiation) { gson {} }
+    install(CallLogging)
+    install(StatusPages) {
+        exception<EntityNotFoundException> {
+            call.respond(HttpStatusCode.NotFound)
+        }
+        exception<IllegalStateException> {
+            call.respond(HttpStatusCode.BadRequest)
+        }
+    }
 
     di {
         bindServices()

@@ -3,24 +3,23 @@ package hu.gyeben.communityparking.server.models.db
 import hu.gyeben.communityparking.server.models.api.ApiUser
 import org.jetbrains.exposed.dao.Entity
 import org.jetbrains.exposed.dao.EntityClass
+import org.jetbrains.exposed.dao.IntEntity
+import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IdTable
+import org.jetbrains.exposed.dao.id.IntIdTable
+import org.jetbrains.exposed.sql.Table
 
-object Users : IdTable<String>() {
+object Users : IntIdTable() {
     val email = varchar("email", 255).uniqueIndex()
     val password = varchar("password", 255)
     val name = varchar("name", 255)
     val hint = varchar("hint", 255)
     val isActive = bool("isActive")
-
-/*  val permissions = varchar("TODO", 1)
-    val validFromUTC = varchar("validFromUTC", 255)*/
-
-    override val id = email.entityId()
 }
 
-class UserEntity(id: EntityID<String>) : Entity<String>(id) {
-    companion object : EntityClass<String, UserEntity>(Users)
+class UserEntity(id: EntityID<Int>) : IntEntity(id) {
+    companion object : IntEntityClass<UserEntity>(Users)
 
     var email by Users.email
     var password by Users.password

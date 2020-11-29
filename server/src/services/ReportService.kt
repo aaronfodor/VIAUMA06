@@ -14,13 +14,21 @@ class ReportService {
             this.timestampUTC = report.timestampUTC
             this.message = report.message
             this.reservedByEmail = report.reservedByEmail
-            this.feePerHour = report.feePerHour
+            report.feePerHour?.let { this.feePerHour = report.feePerHour }
             this.imagePath = report.imagePath
         }
     }
 
     fun getReport(id: Int): Report? = transaction {
         ReportEntity.findById(id)?.toReport()
+    }
+
+    fun getAllReports() = transaction {
+        val result = mutableListOf<Report>()
+        ReportEntity.all().forEach {
+            result.add(it.toReport())
+        }
+        result
     }
 
     fun updateReport(report: Report) = transaction {
@@ -32,8 +40,12 @@ class ReportService {
             reportEntity.timestampUTC = report.timestampUTC
             reportEntity.message = report.message
             reportEntity.reservedByEmail = report.reservedByEmail
-            reportEntity.feePerHour = report.feePerHour
+            report.feePerHour?.let { reportEntity.feePerHour = report.feePerHour }
             reportEntity.imagePath = report.imagePath
         }
+    }
+
+    fun getReportCount() = transaction {
+        ReportEntity
     }
 }
