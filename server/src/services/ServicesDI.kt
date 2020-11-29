@@ -6,4 +6,5 @@ import org.kodein.di.singleton
 
 fun DI.MainBuilder.bindServices(){
     bind<UserService>() with singleton { UserService() }
+    bind<ReportService>() with singleton { ReportService() }
 }

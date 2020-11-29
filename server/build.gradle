@@ -36,6 +36,9 @@ dependencies {
     implementation "io.ktor:ktor-auth:$ktor_version"
     testImplementation "io.ktor:ktor-server-tests:$ktor_version"
 
+    // Gson for ktor
+    implementation "io.ktor:ktor-gson:$ktor_version"
+
     // Kodein for ktor
     implementation "org.kodein.di:kodein-di-framework-ktor-server-jvm:7.0.0"
 
