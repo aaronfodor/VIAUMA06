@@ -22,6 +22,11 @@
         android:title="@string/menu_reports" />
 
     <item
+        android:id="@+id/navigation_search"
+        android:icon="@drawable/icon_search"
+        android:title="@string/menu_search" />
+
+    <item
         android:id="@+id/navigation_settings"
         android:icon="@drawable/icon_settings"
         android:title="@string/menu_settings" />

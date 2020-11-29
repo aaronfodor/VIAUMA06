@@ -5,6 +5,7 @@ import android.media.Image
 import com.arpadfodor.communityparking.android.app.model.DateHandler
 import com.arpadfodor.communityparking.android.app.model.api.CommunityParkingAPI.Companion.MULTIPART_FORM_DATA
 import com.arpadfodor.communityparking.android.app.model.api.CommunityParkingAPI.Companion.MULTIPART_IMAGE_KEY
+import com.arpadfodor.communityparking.android.app.model.api.dataclasses.ApiCoordinate
 import com.arpadfodor.communityparking.android.app.model.api.dataclasses.ApiMetaData
 import com.arpadfodor.communityparking.android.app.model.api.dataclasses.ApiReport
 import com.arpadfodor.communityparking.android.app.model.api.dataclasses.ApiUser
@@ -129,6 +130,30 @@ object ApiService{
             }
             finally {
                 callback(size, timestampUTC)
+            }
+
+        }.start()
+
+    }
+
+    fun getClosestReportToLocation(latitude: Double, longitude: Double, callback: (ApiReport) -> Unit) {
+
+        Thread {
+
+            var dataResponse = ApiReport(0, "", 0.0, 0.0,
+                "", "", "", 0.0, "")
+
+            try {
+                val coordinate = ApiCoordinate(latitude, longitude)
+                val closestReportCall = parkingLotAPI.getClosestReportToLocation(coordinate)
+                val response = closestReportCall.execute().body()
+                dataResponse = response ?: dataResponse
+            }
+            catch (e: Exception) {
+                e.printStackTrace()
+            }
+            finally {
+                callback(dataResponse)
             }
 
         }.start()

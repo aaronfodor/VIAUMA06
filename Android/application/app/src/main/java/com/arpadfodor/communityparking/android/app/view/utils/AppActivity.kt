@@ -118,6 +118,15 @@ abstract class AppActivity : AppCompatActivity(), NavigationView.OnNavigationIte
                 startActivity(intent)
             }
 
+            R.id.navigation_search -> {
+                val toStartActivity = SearchActivity::class.java
+                if(toStartActivity == this::class.java){
+                    return false
+                }
+                val intent = Intent(this, toStartActivity)
+                startActivity(intent)
+            }
+
             R.id.navigation_settings -> {
                 val toStartActivity = SettingsActivity::class.java
                 if(toStartActivity == this::class.java){

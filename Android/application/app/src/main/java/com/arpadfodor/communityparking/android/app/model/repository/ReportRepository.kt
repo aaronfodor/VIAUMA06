@@ -78,6 +78,15 @@ object ReportRepository {
 
     }
 
+    /**
+     * Closest report
+     **/
+    fun getClosestReportIdToLocation(latitude: Double, longitude: Double, callback: (Int) -> Unit) {
+        ApiService.getClosestReportToLocation(latitude, longitude) { it ->
+            callback(it.id)
+        }
+    }
+
     fun deleteReport(id: Int, callback: (Boolean) -> Unit){
 
         Thread {

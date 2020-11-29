@@ -116,4 +116,23 @@ object LocationService {
 
     }
 
+    fun getLocationFromAddress(address: String, resultCallback: (Double, Double) -> Unit){
+
+        var lat = 0.0
+        var long = 0.0
+
+        Thread{
+
+            try{
+                val location = geocoder.getFromLocationName(address, 1)[0]
+                resultCallback(location.latitude, location.longitude)
+            }
+            catch (e: Exception){
+                resultCallback(0.0, 0.0)
+            }
+
+        }.start()
+
+    }
+
 }

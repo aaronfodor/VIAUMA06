@@ -104,6 +104,13 @@
             android:theme="@style/AppTheme" />
 
         <activity
+            android:name="com.arpadfodor.communityparking.android.app.view.SearchActivity"
+            android:icon="@mipmap/ic_launcher"
+            android:rotationAnimation="seamless"
+            android:screenOrientation="fullUser"
+            android:theme="@style/AppTheme" />
+
+        <activity
             android:name="com.arpadfodor.communityparking.android.app.view.SettingsActivity"
             android:icon="@mipmap/ic_launcher"
             android:rotationAnimation="seamless"

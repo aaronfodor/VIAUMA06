@@ -1,5 +1,6 @@
 package com.arpadfodor.communityparking.android.app.model.api
 
+import com.arpadfodor.communityparking.android.app.model.api.dataclasses.ApiCoordinate
 import com.arpadfodor.communityparking.android.app.model.api.dataclasses.ApiMetaData
 import com.arpadfodor.communityparking.android.app.model.api.dataclasses.ApiReport
 import com.arpadfodor.communityparking.android.app.model.api.dataclasses.ApiUser
@@ -19,6 +20,7 @@ interface CommunityParkingAPI {
 
         const val GET_REPORTS = "${API_URL}report/"
         const val GET_REPORTS_META = "${GET_REPORTS}meta/"
+        const val GET_CLOSEST_REPORT_TO_LOCATION = "${API_URL}report/search"
         const val POST_REPORT = "${API_URL}report/"
         const val PUT_REPORT = "${API_URL}report/"
         const val DELETE_REPORT = "${API_URL}report/"
@@ -38,6 +40,9 @@ interface CommunityParkingAPI {
 
     @GET(GET_REPORTS_META)
     fun getReportsMeta(): Call<ApiMetaData>
+
+    @POST(GET_CLOSEST_REPORT_TO_LOCATION)
+    fun getClosestReportToLocation(@Body coordinate: ApiCoordinate): Call<ApiReport>
 
     @Multipart
     @POST(POST_REPORT)
