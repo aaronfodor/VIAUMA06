@@ -17,18 +17,19 @@ interface CommunityParkingAPI {
 
         const val API_URL = "${BASE_URL}api/v1/"
 
-        const val GET_REPORTS = "${API_URL}reports/"
+        const val GET_REPORTS = "${API_URL}report/"
         const val GET_REPORTS_META = "${GET_REPORTS}meta/"
         const val POST_REPORT = "${API_URL}report/"
         const val PUT_REPORT = "${API_URL}report/"
         const val DELETE_REPORT = "${API_URL}report/"
         const val LOGIN = "${API_URL}user/login"
-        const val POST_API_USER = "${API_URL}api-user"
+        const val POST_API_USER = "${API_URL}user/register"
         const val PUT_SELF = "${API_URL}user/self"
         const val DELETE_SELF = "${API_URL}user/self"
 
         const val MULTIPART_FORM_DATA = "multipart/form-data"
         const val MULTIPART_IMAGE_KEY = "image"
+        const val MULTIPART_REPORT_KEY = "report"
 
     }
 
@@ -40,7 +41,7 @@ interface CommunityParkingAPI {
 
     @Multipart
     @POST(POST_REPORT)
-    fun postReport(@Part image: MultipartBody.Part, @Body report: ApiReport): Call<Void>
+    fun postReport(@Part image: MultipartBody.Part, @Part(MULTIPART_REPORT_KEY) report: ApiReport): Call<Void>
 
     @PUT(PUT_REPORT)
     fun putReport(@Body report: ApiReport): Call<Void>

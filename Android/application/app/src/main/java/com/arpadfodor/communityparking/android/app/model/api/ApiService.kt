@@ -1,6 +1,7 @@
 package com.arpadfodor.communityparking.android.app.model.api
 
 import android.graphics.Bitmap
+import android.media.Image
 import com.arpadfodor.communityparking.android.app.model.DateHandler
 import com.arpadfodor.communityparking.android.app.model.api.CommunityParkingAPI.Companion.MULTIPART_FORM_DATA
 import com.arpadfodor.communityparking.android.app.model.api.CommunityParkingAPI.Companion.MULTIPART_IMAGE_KEY
@@ -150,10 +151,10 @@ object ApiService{
             }
 
             val request = byteArray.toRequestBody(MULTIPART_FORM_DATA.toMediaTypeOrNull())
-            val body = MultipartBody.Part.createFormData(MULTIPART_IMAGE_KEY, MULTIPART_IMAGE_KEY, request)
+            val multipartBodyImage = MultipartBody.Part.createFormData(MULTIPART_IMAGE_KEY, MULTIPART_IMAGE_KEY, request)
 
             try {
-                val postReportCall = parkingLotAPI.postReport(body, report)
+                val postReportCall = parkingLotAPI.postReport(multipartBodyImage, report)
                 val responseCode = postReportCall.execute().code()
                 isSuccess = responseCode < 300
             }
