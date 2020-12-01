@@ -8,6 +8,9 @@ import java.io.ByteArrayOutputStream
 import kotlin.math.abs
 import kotlin.math.max
 
+/*
+* Call there methods from a background thread
+*/
 object ImageConverter {
 
     fun imageProxyToBitmap(image: ImageProxy): Bitmap {
