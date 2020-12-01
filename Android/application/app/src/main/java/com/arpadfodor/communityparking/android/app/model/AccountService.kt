@@ -93,12 +93,8 @@ object AccountService {
 
     fun registerAccount(email: String, name: String, password: String, success: () -> Unit, error: () -> Unit){
 
-        login(email, name, password, success={
-
-            ApiService.postApiUser(email, name, password, success={
-                login(email, name, password, success, error)
-            }, error=error)
-
+        ApiService.postApiUser(email, name, password, success={
+            login(email, name, password, success, error)
         }, error=error)
 
     }
