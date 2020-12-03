@@ -42,7 +42,8 @@ fun Route.userRouting() {
                 if (user.email != principal.name)
                     return@put call.respond(HttpStatusCode.BadRequest)
 
-                if (userService.getUser(user.email) == null)
+                val dbUser = userService.getUser(user.email)
+                if (dbUser == null || !dbUser.isActive)
                     return@put call.respond(HttpStatusCode.NotFound)
 
                 userService.updateUser(user.toDbUser())
@@ -53,12 +54,12 @@ fun Route.userRouting() {
             delete("self") {
                 val principal = call.principal<UserIdPrincipal>()!!
                 val email = principal.name
-                val user = userService.getUser(email)
+                val dbUser = userService.getUser(email)
 
-                if (user == null)
+                if (dbUser == null || !dbUser.isActive)
                     return@delete call.respond(HttpStatusCode.NotFound)
 
-                val deactivatedUser = User(user.email, user.password, user.name, user.hint, false)
+                val deactivatedUser = User(dbUser.email, dbUser.password, dbUser.name, dbUser.hint, false)
                 userService.updateUser(deactivatedUser)
                 call.respond(HttpStatusCode.OK)
             }

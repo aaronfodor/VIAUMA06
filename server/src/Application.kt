@@ -59,12 +59,15 @@ fun Application.module(testing: Boolean = false) {
 
 fun Application.authenticate(credential: UserPasswordCredential): Principal? {
     val userService by di().instance<UserService>()
-    val passwordHash = userService.getUser(credential.name)?.password
+    val dbUser = userService.getUser(credential.name)
 
-    passwordHash?.let {
-        if (BCrypt.checkpw(credential.password, passwordHash))
-            return UserIdPrincipal(credential.name)
+    if (dbUser == null || !dbUser.isActive) {
+        return null
     }
+    val passwordHash = dbUser.password
+
+    if (BCrypt.checkpw(credential.password, passwordHash))
+        return UserIdPrincipal(credential.name)
 
     return null
 }
