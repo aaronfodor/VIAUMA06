@@ -34,11 +34,24 @@ class ReportEntity(id: EntityID<Int>) : IntEntity(id) {
     var feePerHour by Reports.feePerHour
     var imagePath by Reports.imagePath
 
-    fun toReport() = Report(_id.value, reporterEmail, latitude, longitude, timestampUTC, message, reservedByEmail, feePerHour, imagePath)
+    fun toReport() =
+        Report(reporterEmail, latitude, longitude, timestampUTC, message, reservedByEmail, feePerHour, imagePath)
+
+    fun toApiReport(): ApiReport =
+        ApiReport(
+            _id.value,
+            reporterEmail,
+            latitude,
+            longitude,
+            timestampUTC,
+            message,
+            reservedByEmail,
+            feePerHour,
+            imagePath
+        )
 }
 
 data class Report(
-    val id: Int,
     val reporterEmail: String,
     val latitude: Double,
     val longitude: Double,
@@ -49,6 +62,18 @@ data class Report(
     val imagePath: String
 )
 
-fun ApiReport.toDbReport(): Report {
-    return Report(id, reporterEmail, latitude, longitude, timestampUTC, message, reservedByEmail, feePerHour, imagePath)
+fun ApiReport.toDbReport(uploadedImagePath: String? = null): Report {
+    uploadedImagePath?.let {
+        return Report(
+            reporterEmail,
+            latitude,
+            longitude,
+            timestampUTC,
+            message,
+            reservedByEmail,
+            feePerHour,
+            uploadedImagePath
+        )
+    }
+    return Report(reporterEmail, latitude, longitude, timestampUTC, message, reservedByEmail, feePerHour, imagePath)
 }

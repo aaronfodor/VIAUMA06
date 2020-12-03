@@ -12,10 +12,12 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.http.*
 import io.ktor.util.*
+import io.ktor.utils.io.errors.*
 import org.jetbrains.exposed.dao.exceptions.EntityNotFoundException
 import org.kodein.di.instance
 import org.kodein.di.ktor.di
 import org.mindrot.jbcrypt.BCrypt
+import org.slf4j.LoggerFactory
 import java.lang.IllegalStateException
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
@@ -34,6 +36,9 @@ fun Application.module(testing: Boolean = false) {
         }
         exception<IllegalStateException> {
             call.respond(HttpStatusCode.BadRequest)
+        }
+        exception<IOException> {
+            call.respond(HttpStatusCode.InternalServerError)
         }
     }
 
