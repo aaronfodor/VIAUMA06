@@ -94,32 +94,35 @@ class CameraViewModel : AppViewModel(){
         return MediaHandler.getImagePublicDirOutputStream()
     }
 
-    private fun prepareRecognitions() : Report {
+    private fun prepareRecognitions(callback: (Report) -> Unit){
 
-        val imageMeta = MetaProvider.getDeviceMetaData()
+        MetaProvider.getDeviceMetaData{ imageMeta ->
 
-        val user = AccountService.userId
+            val user = AccountService.userId
 
-        val recognition =
-            Report(
-                id = 1,
-                reporterEmail = user,
-                latitude = imageMeta[1].toDouble(),
-                longitude = imageMeta[2].toDouble(),
-                timestampUTC = imageMeta[0],
-                message = "",
-                reservedByEmail = "",
-                feePerHour = null,
-                imagePath = "")
+            val recognition =
+                Report(
+                    id = 1,
+                    reporterEmail = user,
+                    latitude = imageMeta[1].toDouble(),
+                    longitude = imageMeta[2].toDouble(),
+                    timestampUTC = imageMeta[0],
+                    message = "",
+                    reservedByEmail = "",
+                    feePerHour = null,
+                    imagePath = "")
 
-        this.recognition.postValue(recognition)
-        return recognition
+            this.recognition.postValue(recognition)
+            callback(recognition)
+
+        }
 
     }
 
     fun setAlertActivityParams(){
-        val item = prepareRecognitions()
-        NewReportViewModel.setParameter(item, currentImage)
+        prepareRecognitions{ item ->
+            NewReportViewModel.setParameter(item, currentImage)
+        }
     }
 
 }

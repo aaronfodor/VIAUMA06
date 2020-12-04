@@ -15,10 +15,12 @@ object MetaProvider {
         return MediaHandler.getImageMeta(photoUri)
     }
 
-    fun getDeviceMetaData(): Array<String> {
+    fun getDeviceMetaData(resultCallback: (Array<String>) -> Unit){
         val date = DateHandler.currentTimeUTC()
-        val location = LocationService.getLocation()
-        return arrayOf(date, location[0].toString(), location[1].toString())
+        LocationService.getLocation{ location ->
+            val results = arrayOf(date, location[0].toString(), location[1].toString())
+            resultCallback(results)
+        }
     }
 
 }

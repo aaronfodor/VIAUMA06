@@ -389,13 +389,9 @@ class CameraFragment : AppFragment() {
         extendedFabLiveAction.overshootAppearingAnimation(requireContext())
 
         extendedFabLiveAction.setOnClickListener {
-
-            LocationService.updateLocation()
-
             viewModel.setAlertActivityParams()
             val intent = Intent(this.requireActivity(), NewReportActivity::class.java)
             startActivity(intent)
-
         }
 
     }

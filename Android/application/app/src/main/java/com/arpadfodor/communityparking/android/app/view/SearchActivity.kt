@@ -24,6 +24,12 @@ class SearchActivity : AppActivity() {
         val navigation = findViewById<NavigationView>(R.id.search_navigation)
         initUi(drawer, navigation)
 
+        btnUseMyLocation.setOnClickListener {
+            viewModel.getClosestReportToDeviceLocation() { reportId ->
+                showReport(reportId)
+            }
+        }
+
         fabSearch.setOnClickListener {
             viewModel.getClosestReportIdToAddress(etSearchByAddress.text.toString()) { reportId ->
                 showReport(reportId)

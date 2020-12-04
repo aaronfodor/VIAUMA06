@@ -10,6 +10,17 @@ class SearchViewModel : AppViewModel(){
         return LocationService.getLocationFromAddress(address, resultCallback)
     }
 
+    fun getClosestReportToDeviceLocation(resultIdCallback: (Int) -> Unit){
+        LocationService.getLocation { currentLocation ->
+            ReportRepository.getClosestReportIdToLocation(currentLocation[0], currentLocation[1]) { reportId ->
+                if(reportId == 0){
+                    return@getClosestReportIdToLocation
+                }
+                resultIdCallback(reportId)
+            }
+        }
+    }
+
     fun getClosestReportIdToAddress(address: String, resultIdCallback: (Int) -> Unit){
         getLocationFromAddress(address) { lat, long ->
             ReportRepository.getClosestReportIdToLocation(lat, long) { reportId ->

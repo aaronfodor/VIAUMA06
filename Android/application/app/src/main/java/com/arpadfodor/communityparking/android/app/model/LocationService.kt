@@ -29,15 +29,15 @@ object LocationService {
         appContext = appContext_
         geocoder = Geocoder(appContext)
         locationManager = getSystemService(appContext, LocationManager::class.java) as LocationManager
-        updateLocation()
+        updateLocation{}
     }
 
     /**
      * Retrieves the location to the given lambda
      **/
-    fun updateLocation(){
+    private fun updateLocation(completedCallback: (Boolean) -> Unit){
 
-        val callback:(Double, Double) -> Unit = {lat, long ->
+        val updateCallback:(Double, Double) -> Unit = {lat, long ->
             deviceLatitude = lat
             deviceLongitude = long
         }
@@ -47,16 +47,16 @@ object LocationService {
 
         if (ActivityCompat.checkSelfPermission(appContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
             || ActivityCompat.checkSelfPermission(appContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return
+            completedCallback(false)
         }
 
         // if the minimum time since the last refresh is not exceeded, do not refresh location
         if(locationTimeStamp + MINIMUM_TIME_BETWEEN_REFRESH > Calendar.getInstance().timeInMillis){
-            return
+            completedCallback(false)
         }
 
         if(isLocationUpdating){
-            return
+            completedCallback(false)
         }
 
         isLocationUpdating = true
@@ -80,11 +80,13 @@ object LocationService {
             }
             catch (e: Exception){
                 e.printStackTrace()
+                completedCallback(false)
             }
 
             if(latitude != 0.0 && longitude != 0.0){
-                callback(latitude, longitude)
                 locationTimeStamp = Calendar.getInstance().timeInMillis
+                updateCallback(latitude, longitude)
+                completedCallback(true)
             }
 
             isLocationUpdating = false
@@ -93,8 +95,11 @@ object LocationService {
 
     }
 
-    fun getLocation() : Array<Double>{
-        return arrayOf(deviceLatitude, deviceLongitude)
+    fun getLocation(resultCallback: (Array<Double>) -> Unit){
+        updateLocation {
+            val locationResult = arrayOf(deviceLatitude, deviceLongitude)
+            resultCallback(locationResult)
+        }
     }
 
     fun getAddressFromLocation(lat: Double, long: Double, resultCallback: (String) -> Unit){

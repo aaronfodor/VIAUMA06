@@ -64,24 +64,34 @@
                     android:text="@string/app_version"/>
 
                 <TextView
-                    android:id="@+id/aboutAppCreator"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/aboutAppVersion"
-                    style="@style/SubtitleTop"
-                    android:text="@string/app_creator"/>
-
-                <TextView
                     android:id="@+id/aboutAppDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/aboutAppCreator"
+                    app:layout_constraintTop_toBottomOf="@+id/aboutAppVersion"
                     style="@style/ParagraphBodyBottom"
                     android:text="@string/app_date"/>
+
+                <TextView
+                    android:id="@+id/aboutAppCreator"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/aboutAppDate"
+                    style="@style/SubtitleTop"
+                    android:text="@string/client_creator"/>
+
+                <TextView
+                    android:id="@+id/aboutServerCreator"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/aboutAppCreator"
+                    style="@style/SubtitleTop"
+                    android:text="@string/server_creator"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
