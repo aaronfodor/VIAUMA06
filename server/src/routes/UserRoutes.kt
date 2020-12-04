@@ -6,6 +6,7 @@ import hu.gyeben.communityparking.server.models.db.toDbUser
 import hu.gyeben.communityparking.server.services.UserService
 import io.ktor.application.*
 import io.ktor.auth.*
+import io.ktor.features.*
 import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
@@ -18,10 +19,10 @@ import org.slf4j.LoggerFactory
 fun Route.userRouting() {
     val userService by di().instance<UserService>()
 
-    route("/user") {
+    route("/api/v1/user") {
+        // Stores new user in DB
         post("register") {
             val user = call.receive<ApiUser>()
-
             user.password = BCrypt.hashpw(user.password, BCrypt.gensalt())
 
             if (userService.getUser(user.email) == null) {
@@ -33,7 +34,7 @@ fun Route.userRouting() {
         }
 
         authenticate("userAuth") {
-            //  Updating user
+            //  Updates user in DB
             put("self") {
                 val user = call.receive<ApiUser>()
                 val principal = call.principal<UserIdPrincipal>()!!
@@ -41,27 +42,29 @@ fun Route.userRouting() {
                 if (user.email != principal.name)
                     return@put call.respond(HttpStatusCode.BadRequest)
 
-                if (userService.getUser(user.email) == null)
+                val dbUser = userService.getUser(user.email)
+                if (dbUser == null || !dbUser.isActive)
                     return@put call.respond(HttpStatusCode.NotFound)
 
                 userService.updateUser(user.toDbUser())
                 call.respond(HttpStatusCode.OK)
             }
 
-            // Deactivating user
+            // Deactivates user
             delete("self") {
                 val principal = call.principal<UserIdPrincipal>()!!
                 val email = principal.name
-                val user = userService.getUser(email)
+                val dbUser = userService.getUser(email)
 
-                if (user == null)
+                if (dbUser == null || !dbUser.isActive)
                     return@delete call.respond(HttpStatusCode.NotFound)
 
-                val deactivedUser = User(user.email, user.password, user.name, user.hint, false)
-                userService.updateUser(deactivedUser)
+                val deactivatedUser = User(dbUser.email, dbUser.password, dbUser.name, dbUser.hint, false)
+                userService.updateUser(deactivatedUser)
                 call.respond(HttpStatusCode.OK)
             }
 
+            // Endpoint for checking user credentials
             post("login") {
                 call.respond(HttpStatusCode.OK)
             }
