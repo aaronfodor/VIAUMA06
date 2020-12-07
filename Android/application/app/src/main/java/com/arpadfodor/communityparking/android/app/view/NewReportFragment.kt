@@ -145,7 +145,7 @@ class NewReportFragment : AppFragment(){
 
             detail_send_button?.setOnClickListener {
 
-                viewModel.sendReport(){ isSuccess ->
+                viewModel.sendReport{ isSuccess ->
 
                     val currentContext = context
                     val currentView = view

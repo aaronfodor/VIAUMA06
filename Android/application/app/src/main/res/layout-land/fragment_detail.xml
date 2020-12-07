@@ -54,7 +54,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     style="@style/ReportImage"/>
 
-                <com.arpadfodor.communityparking.android.app.view.utils.AppPositiveButton
+                <com.arpadfodor.communityparking.android.app.view.utils.AppButton
                     android:id="@+id/reportReserve"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

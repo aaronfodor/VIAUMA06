@@ -41,11 +41,11 @@ class HowToUseViewModel : AppViewModel(){
 
     }
 
-    fun startTextToSpeech(text: String){
+    private fun startTextToSpeech(text: String){
         TextToSpeechService.speak(text)
     }
 
-    fun stopTextToSpeech(){
+    private fun stopTextToSpeech(){
         TextToSpeechService.stop()
     }
 

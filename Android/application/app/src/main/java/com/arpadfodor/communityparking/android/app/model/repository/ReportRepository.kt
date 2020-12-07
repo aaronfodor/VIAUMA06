@@ -2,6 +2,7 @@ package com.arpadfodor.communityparking.android.app.model.repository
 
 import android.graphics.Bitmap
 import com.arpadfodor.communityparking.android.app.model.api.ApiService
+import com.arpadfodor.communityparking.android.app.model.api.CommunityParkingAPI
 import com.arpadfodor.communityparking.android.app.model.api.dataclasses.ApiReport
 import com.arpadfodor.communityparking.android.app.model.db.ApplicationDB
 import com.arpadfodor.communityparking.android.app.model.db.dataclasses.DbMetaData
@@ -189,7 +190,7 @@ object ReportRepository {
     private fun apiReportToReport(source: ApiReport) : Report{
         return Report(source.id, source.reporterEmail, source.latitude, source.longitude,
             source.timestampUTC, source.message, source.reservedByEmail, source.feePerHour,
-            source.imagePath)
+            CommunityParkingAPI.REPORT_IMAGE_PATH_PREFIX + source.imagePath)
     }
 
     private fun reportToDbReport(source: Report, imagePath: String?) : DbReport{

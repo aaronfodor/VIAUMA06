@@ -17,7 +17,7 @@ object Reports : IntIdTable() {
     val timestampUTC = varchar("timestampUTC", 255)
     val message = varchar("message", 1000)
     val reservedByEmail = varchar("reservedByEmail", 255)
-    val feePerHour = double("feePerHour")
+    val feePerHour = double("feePerHour").nullable()
     val imagePath = varchar("imagePath", 255)
 }
 

@@ -9,6 +9,7 @@ import com.arpadfodor.communityparking.android.app.model.api.dataclasses.ApiCoor
 import com.arpadfodor.communityparking.android.app.model.api.dataclasses.ApiMetaData
 import com.arpadfodor.communityparking.android.app.model.api.dataclasses.ApiReport
 import com.arpadfodor.communityparking.android.app.model.api.dataclasses.ApiUser
+import com.arpadfodor.communityparking.android.app.model.repository.GeneralRepository
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
@@ -40,6 +41,7 @@ object ApiService{
                 val dataCall = parkingLotAPI.getReportsData()
                 dataResponse = dataCall.execute().body() ?: emptyList()
 
+                /*
                 //TODO: JUST FOR TESTING
                 val r1 = ApiReport(
                     1,
@@ -97,6 +99,7 @@ object ApiService{
                     "https://auto.com/r.jpg"
                 )
                 dataResponse = listOf(r1, r2, r3, r4, r5)
+                 */
             }
             catch (e: Exception) {
                 e.printStackTrace()
@@ -114,9 +117,9 @@ object ApiService{
         Thread {
 
             var size = 0
-            //var timestampUTC = DateHandler.dateToString(DateHandler.defaultDate())
+            var timestampUTC = DateHandler.dateToString(DateHandler.defaultDate())
             //TODO: REPLACE THIS, JUST FOR TESTING
-            var timestampUTC = DateHandler.currentTimeUTC()
+            //var timestampUTC = DateHandler.currentTimeUTC()
 
             try {
                 val metaDataCall = parkingLotAPI.getReportsMeta()

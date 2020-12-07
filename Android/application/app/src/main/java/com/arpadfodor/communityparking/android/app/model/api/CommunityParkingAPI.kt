@@ -12,13 +12,17 @@ interface CommunityParkingAPI {
 
     companion object {
 
+        //real device testing (deployed server with ngrok)
+        const val BASE_URL = "http://538a55d2fedc.ngrok.io/"
         //emulator testing
         //const val BASE_URL = "http://10.0.2.2:8080/"
-        const val BASE_URL = "https://www.mydomain.com/"
+        //deployed server address
+        //const val BASE_URL = "https://www.mydomain.com/"
 
         const val API_URL = "${BASE_URL}api/v1/"
 
         const val GET_REPORTS = "${API_URL}report/"
+        const val REPORT_IMAGE_PATH_PREFIX = "${API_URL}report"
         const val GET_REPORTS_META = "${GET_REPORTS}meta/"
         const val GET_CLOSEST_REPORT_TO_LOCATION = "${API_URL}report/search"
         const val POST_REPORT = "${API_URL}report/"
