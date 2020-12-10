@@ -34,18 +34,21 @@ class MapViewModel : AppViewModel(){
         MutableLiveData<Int>(GoogleMap.MAP_TYPE_NORMAL)
     }
 
-    fun getLocation() : LatLng{
+    fun getLocation(callback: (LatLng) -> Unit){
 
-        val location = LocationService.getLocation()
+        LocationService.getLocation{ location ->
 
-        // if location is full of 0s (probably invalid), show the globe
-        if(location[0] == 0.0 && location[1] == 0.0){
-            zoomLevel = 1f
-            location[0] = 49.118196
-            location[1] = -8.761787
+            // if location is full of 0s (probably invalid), show the globe
+            if(location[0] == 0.0 && location[1] == 0.0){
+                zoomLevel = 1f
+                location[0] = 49.118196
+                location[1] = -8.761787
+            }
+
+            val result = LatLng(location[0], location[1])
+            callback(result)
+
         }
-
-        return LatLng(location[0], location[1])
 
     }
 

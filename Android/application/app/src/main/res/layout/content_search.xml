@@ -38,6 +38,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:inputType="text" />
 
+        <com.arpadfodor.communityparking.android.app.view.utils.AppPositiveButton
+            android:id="@+id/btnUseMyLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/use_my_location"
+            style="@style/AppButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etSearchByAddress"
+            app:layout_constraintBottom_toTopOf="@id/fabSearch"/>
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabSearch"
             android:layout_width="wrap_content"

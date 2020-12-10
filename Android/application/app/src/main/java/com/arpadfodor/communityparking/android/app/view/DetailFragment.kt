@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.arpadfodor.communityparking.android.app.R
 import com.arpadfodor.communityparking.android.app.view.utils.*

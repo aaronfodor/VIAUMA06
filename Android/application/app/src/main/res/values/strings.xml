@@ -3,9 +3,10 @@
 <!DOCTYPE resources [
     <!ENTITY appName "Community Parking">
     <!ENTITY appId "">
-    <!ENTITY appVersion "v0.3">
-    <!ENTITY appDate "23/11/2020">
+    <!ENTITY appVersion "v0.4">
+    <!ENTITY appDate "30/11/2020">
     <!ENTITY appCreator "Arpad Fodor">
+    <!ENTITY serverCreator "Bendegúz Gyönki">
     ]>
 
 <resources>
@@ -14,7 +15,8 @@
     <string name="app_id">&appId;</string>
     <string name="app_version">&appVersion;</string>
     <string name="app_date">&appDate;</string>
-    <string name="app_creator">Created by &appCreator;</string>
+    <string name="client_creator">Client created by &appCreator;</string>
+    <string name="server_creator">Server created by &serverCreator;</string>
     <string name="developer_page">https://github.com/arpadfodor</string>
     <string name="maintenance_contact">arpadfodor01@gmail.com</string>
     <string name="maintenance_message_title">[%1$s][bug report]</string>
@@ -149,5 +151,6 @@
 
     <string name="search">Search</string>
     <string name="search_input_placeholder">Type address</string>
+    <string name="use_my_location">Use my location</string>
 
 </resources>

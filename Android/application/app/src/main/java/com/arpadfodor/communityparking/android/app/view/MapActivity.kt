@@ -72,15 +72,24 @@ class MapActivity : AppActivity(), OnMapReadyCallback {
             // hide the compass button
             it.uiSettings.isCompassEnabled = false
 
-            it.moveCamera(
-                CameraUpdateFactory.newLatLngZoom(
-                    viewModel.getLocation(),
-                    viewModel.zoomLevel
-                )
-            )
+            viewModel.getLocation { latLng ->
+
+                runOnUiThread {
+
+                    it.moveCamera(
+                        CameraUpdateFactory.newLatLngZoom(
+                            latLng,
+                            viewModel.zoomLevel
+                        )
+                    )
+
+                }
+
+            }
+
             setMapStyle(it)
             enableMyLocation()
-            viewModel.updateReports(){}
+            viewModel.updateReports{}
 
 
             // Set a custom info window adapter for the google map

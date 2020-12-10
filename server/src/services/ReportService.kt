@@ -15,7 +15,7 @@ class ReportService {
             this.timestampUTC = report.timestampUTC
             this.message = report.message
             this.reservedByEmail = report.reservedByEmail
-            report.feePerHour?.let { this.feePerHour = report.feePerHour }
+            this.feePerHour = report.feePerHour
             this.imagePath = report.imagePath
         }
     }

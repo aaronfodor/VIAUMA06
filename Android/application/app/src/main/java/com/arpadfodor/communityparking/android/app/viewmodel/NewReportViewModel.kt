@@ -31,6 +31,7 @@ class NewReportViewModel() : AppViewModel(){
             report.timestampUTC, report.message, report.reservedByEmail, report.feePerHour, report.imagePath)
 
         val success = {
+            callback(true)
         }
         val error = {
             callback(false)
