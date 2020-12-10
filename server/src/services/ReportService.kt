@@ -1,7 +1,7 @@
 package hu.gyeben.communityparking.server.services
 
 import hu.gyeben.communityparking.server.Utils
-import hu.gyeben.communityparking.server.model.api.ApiReport
+import hu.gyeben.communityparking.server.models.api.ApiReport
 import hu.gyeben.communityparking.server.models.db.Report
 import hu.gyeben.communityparking.server.models.db.ReportEntity
 import org.jetbrains.exposed.sql.transactions.transaction

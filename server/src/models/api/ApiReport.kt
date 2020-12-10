@@ -1,4 +1,4 @@
-package hu.gyeben.communityparking.server.model.api
+package hu.gyeben.communityparking.server.models.api
 
 data class ApiReport(
     val id: Int,

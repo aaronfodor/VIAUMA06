@@ -1,14 +1,10 @@
 package hu.gyeben.communityparking.server.models.db
 
 import hu.gyeben.communityparking.server.models.api.ApiUser
-import org.jetbrains.exposed.dao.Entity
-import org.jetbrains.exposed.dao.EntityClass
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
-import org.jetbrains.exposed.dao.id.IdTable
 import org.jetbrains.exposed.dao.id.IntIdTable
-import org.jetbrains.exposed.sql.Table
 
 object Users : IntIdTable() {
     val email = varchar("email", 255).uniqueIndex()

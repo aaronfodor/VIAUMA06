@@ -1,13 +1,9 @@
 package hu.gyeben.communityparking.server.models.db
 
-import hu.gyeben.communityparking.server.model.api.ApiReport
-import hu.gyeben.communityparking.server.models.api.ApiUser
-import org.jetbrains.exposed.dao.Entity
-import org.jetbrains.exposed.dao.EntityClass
+import hu.gyeben.communityparking.server.models.api.ApiReport
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
-import org.jetbrains.exposed.dao.id.IdTable
 import org.jetbrains.exposed.dao.id.IntIdTable
 
 object Reports : IntIdTable() {
@@ -24,7 +20,7 @@ object Reports : IntIdTable() {
 class ReportEntity(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<ReportEntity>(Reports)
 
-    var _id by Reports.id
+    private var _id by Reports.id
     var reporterEmail by Reports.reporterEmail
     var latitude by Reports.latitude
     var longitude by Reports.longitude

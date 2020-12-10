@@ -1,7 +1,9 @@
 package hu.gyeben.communityparking.server
 
+import kotlin.math.*
+
 object Utils {
-    val earthR = 6371
+    private const val earthR = 6371
 
     fun haversine(latitude1: Double, longitude1: Double, latitude2: Double, longitude2: Double): Double {
         val dLatitude = Math.toRadians(latitude2 - latitude1)
@@ -9,8 +11,8 @@ object Utils {
         val rLatitude1 = Math.toRadians(latitude1)
         val rLatitude2 = Math.toRadians(latitude2)
 
-        val a = Math.pow(Math.sin(dLatitude / 2), 2.0) + Math.pow(Math.sin(dLongitude / 2), 2.0) * Math.cos(rLatitude1) * Math.cos(rLatitude2)
-        val c = 2 * Math.asin(Math.sqrt(a))
+        val a = sin(dLatitude / 2).pow(2.0) + sin(dLongitude / 2).pow(2.0) * cos(rLatitude1) * cos(rLatitude2)
+        val c = 2 * asin(sqrt(a))
         return earthR * c
     }
 }

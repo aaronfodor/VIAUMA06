@@ -1,8 +1,8 @@
 package hu.gyeben.communityparking.server.routes
 
 import com.google.gson.Gson
-import hu.gyeben.communityparking.server.model.api.ApiMetaData
-import hu.gyeben.communityparking.server.model.api.ApiReport
+import hu.gyeben.communityparking.server.models.api.ApiMetaData
+import hu.gyeben.communityparking.server.models.api.ApiReport
 import hu.gyeben.communityparking.server.models.api.ApiSearch
 import hu.gyeben.communityparking.server.models.db.toDbReport
 import hu.gyeben.communityparking.server.services.ReportService
@@ -16,10 +16,7 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import org.kodein.di.instance
 import org.kodein.di.ktor.di
-import org.slf4j.LoggerFactory
 import java.io.File
-import java.nio.file.Files
-import java.nio.file.Paths
 import java.time.Instant
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
@@ -45,71 +42,70 @@ fun Route.reportRouting(uploadDir: String) {
             files(uploadDir)
         }
 
-        // Stores new report in DB and stores image in filesystem
-        post {
-            var report: ApiReport? = null
-            var fileName: String? = null
+        // Returns "nearest" report
+        post("search") {
+            val searchParams = call.receive<ApiSearch>()
+            val report = reportService.getNearestReport(searchParams.latitude, searchParams.longitude)
+                ?: return@post call.respond(HttpStatusCode.NotFound)
 
-            val multipart = call.receiveMultipart()
-            multipart.forEachPart { part ->
-                when (part) {
-                    is PartData.FormItem -> {
+            call.respond(report)
+        }
+
+        authenticate("userAuth") {
+            // Stores new report in DB and stores image in filesystem
+            post {
+                var report: ApiReport? = null
+                var fileName: String? = null
+
+                val multipart = call.receiveMultipart()
+                multipart.forEachPart { part ->
+                    if (part is PartData.FormItem) {
                         if (part.name.equals("report")) {
                             report = Gson().fromJson(part.value, ApiReport::class.java)
                         }
                     }
-                    is PartData.FileItem -> {
+                    else if (part is PartData.FileItem) {
                         if (part.name.equals("image")) {
-                            File(uploadDir).mkdirs();
+                            File(uploadDir).mkdirs()
 
                             fileName = "upload-${System.currentTimeMillis()}.png"
                             val file = File(uploadDir, fileName!!)
 
                             part.streamProvider()
-                                .use { inputStream -> file.outputStream().buffered().use { inputStream.copyTo(it) } }
+                                .use { inputStream ->
+                                    file.outputStream().buffered().use { inputStream.copyTo(it) }
+                                }
                         }
                     }
+                    part.dispose()
                 }
-                part.dispose()
+
+                if (report == null || fileName == null) {
+                    return@post call.respond(HttpStatusCode.BadRequest)
+                } else {
+                    val uploadedImagePath = "/images/${fileName}"
+                    reportService.addReport(report!!.toDbReport(uploadedImagePath))
+                    modificationTimestamp = createTimestamp()
+                }
+
+                call.respond(HttpStatusCode.Created)
             }
 
-            if (report == null || fileName == null) {
-                return@post call.respond(HttpStatusCode.BadRequest)
-            } else {
-                val uploadedImagePath = "/images/${fileName}"
-                reportService.addReport(report!!.toDbReport(uploadedImagePath))
+            // Updates report in DB
+            put {
+                val report = call.receive<ApiReport>()
+                val principal = call.principal<UserIdPrincipal>()!!
+
+                if (report.reporterEmail != principal.name)
+                    return@put call.respond(HttpStatusCode.BadRequest)
+
+                if (reportService.getReport(report.id) == null)
+                    return@put call.respond(HttpStatusCode.NotFound)
+
+                reportService.updateReport(report.id, report.toDbReport())
                 modificationTimestamp = createTimestamp()
+                call.respond(HttpStatusCode.OK)
             }
-
-            call.respond(HttpStatusCode.Created)
-        }
-
-        // TODO: permissions?
-        // Updates report in DB
-        put {
-            val report = call.receive<ApiReport>()
-            //val principal = call.principal<UserIdPrincipal>()!!
-
-            //if (report.reporterEmail != principal.name)
-            //    return@put call.respond(HttpStatusCode.BadRequest)
-
-            if (reportService.getReport(report.id) == null)
-                return@put call.respond(HttpStatusCode.NotFound)
-
-            reportService.updateReport(report.id, report.toDbReport())
-            modificationTimestamp = createTimestamp()
-            call.respond(HttpStatusCode.OK)
-        }
-
-        // Returns "nearest" report
-        post("search") {
-            val searchParams = call.receive<ApiSearch>()
-            val report = reportService.getNearestReport(searchParams.latitude, searchParams.longitude)
-
-            if (report == null)
-                return@post call.respond(HttpStatusCode.NotFound)
-
-            call.respond(report)
         }
     }
 }

@@ -14,7 +14,6 @@ import io.ktor.routing.*
 import org.kodein.di.instance
 import org.kodein.di.ktor.di
 import org.mindrot.jbcrypt.BCrypt
-import org.slf4j.LoggerFactory
 
 fun Route.userRouting() {
     val userService by di().instance<UserService>()
@@ -26,7 +25,7 @@ fun Route.userRouting() {
             user.password = BCrypt.hashpw(user.password, BCrypt.gensalt())
 
             if (userService.getUser(user.email) == null) {
-                userService.addUser(user.toDbUser());
+                userService.addUser(user.toDbUser())
                 call.respond(HttpStatusCode.Created)
             } else {
                 call.respondText("Email is already registered", status = HttpStatusCode.Conflict)
